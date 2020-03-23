@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:html="http://www.w3.org/TR/REC-html40">
+<Worksheet ss:Name="Table1">
+	<Table>
+		<Column ss:Index="3" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="5" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="6" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="7" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="8" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="9" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="12" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="13" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="14" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="15" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="16" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="17" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="18" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="19" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="21" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="22" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="23" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="24" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="25" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="26" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="27" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="28" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="29" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="30" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Column ss:Index="31" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Row>
+			<Cell><Data ss:Type="String">id</Data></Cell>
+			<Cell><Data ss:Type="String">idIglesia</Data></Cell>
+			<Cell><Data ss:Type="String">nombre</Data></Cell>
+			<Cell><Data ss:Type="String">apellido1</Data></Cell>
+			<Cell><Data ss:Type="String">apellido2</Data></Cell>
+			<Cell><Data ss:Type="String">tipoDocumento</Data></Cell>
+			<Cell><Data ss:Type="String">nroDocumento</Data></Cell>
+			<Cell><Data ss:Type="String">direccion</Data></Cell>
+			<Cell><Data ss:Type="String">codigoPostal</Data></Cell>
+			<Cell><Data ss:Type="String">comunidad</Data></Cell>
+			<Cell><Data ss:Type="String">provincia</Data></Cell>
+			<Cell><Data ss:Type="String">poblacion</Data></Cell>
+			<Cell><Data ss:Type="String">telefonoFijo</Data></Cell>
+			<Cell><Data ss:Type="String">telefonoMovil</Data></Cell>
+			<Cell><Data ss:Type="String">email</Data></Cell>
+			<Cell><Data ss:Type="String">sexo</Data></Cell>
+			<Cell><Data ss:Type="String">fecNacimiento</Data></Cell>
+			<Cell><Data ss:Type="String">lugarNacimiento</Data></Cell>
+			<Cell><Data ss:Type="String">paisNacimiento</Data></Cell>
+			<Cell><Data ss:Type="String">profesion</Data></Cell>
+			<Cell><Data ss:Type="String">fecBautismo</Data></Cell>
+			<Cell><Data ss:Type="String">iglesiaBautismo</Data></Cell>
+			<Cell><Data ss:Type="String">fecCartaTraslado</Data></Cell>
+			<Cell><Data ss:Type="String">iglesiaProcedencia</Data></Cell>
+			<Cell><Data ss:Type="String">otrosDatos</Data></Cell>
+			<Cell><Data ss:Type="String">foto</Data></Cell>
+			<Cell><Data ss:Type="String">relacionFamilia</Data></Cell>
+			<Cell><Data ss:Type="String">parentesco</Data></Cell>
+			<Cell><Data ss:Type="String">status</Data></Cell>
+			<Cell><Data ss:Type="String">created_at</Data></Cell>
+			<Cell><Data ss:Type="String">updated_at</Data></Cell>
+		</Row>
+
+		<Row>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String">Alexander</Data></Cell>
+			<Cell><Data ss:Type="String">Marcano</Data></Cell>
+			<Cell><Data ss:Type="String">Aguilera</Data></Cell>
+			<Cell><Data ss:Type="String">PAS</Data></Cell>
+			<Cell><Data ss:Type="String">073827223</Data></Cell>
+			<Cell><Data ss:Type="String">Avenida Cesar Augusto # 95</Data></Cell>
+			<Cell><Data ss:Type="String">500003</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">11</Data></Cell>
+			<Cell><Data ss:Type="String">pueblo 1</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">amarcano568@gmail.com</Data></Cell>
+			<Cell><Data ss:Type="String">M</Data></Cell>
+			<Cell><Data ss:Type="String">1974-09-06</Data></Cell>
+			<Cell><Data ss:Type="String">Porlamar</Data></Cell>
+			<Cell><Data ss:Type="String">189</Data></Cell>
+			<Cell><Data ss:Type="Number">126</Data></Cell>
+			<Cell><Data ss:Type="String">2015-12-06</Data></Cell>
+			<Cell><Data ss:Type="String">El León de tribu de Judá</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">Iglesia Biblica Emmanuel</Data></Cell>
+			<Cell><Data ss:Type="String">What is Lorem Ipsum?</Data></Cell>
+			<Cell><Data ss:Type="String">foto-1.jpeg</Data></Cell>
+			<Cell><Data ss:Type="String">670b9562-b30d-52d5-b827-655787665500</Data></Cell>
+			<Cell><Data ss:Type="String">Esposo(a)</Data></Cell>
+			<Cell><Data ss:Type="String">1</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-11 09:59:11</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="String">Luriannys</Data></Cell>
+			<Cell><Data ss:Type="String">Salazar</Data></Cell>
+			<Cell><Data ss:Type="String">de Marcano</Data></Cell>
+			<Cell><Data ss:Type="String">PAS</Data></Cell>
+			<Cell><Data ss:Type="String">123456789</Data></Cell>
+			<Cell><Data ss:Type="String">Avenida Cesar Augusto # 95</Data></Cell>
+			<Cell><Data ss:Type="String">500003</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">11</Data></Cell>
+			<Cell><Data ss:Type="String">pueblo 1</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">lurisalazar3110@gmail.com</Data></Cell>
+			<Cell><Data ss:Type="String">F</Data></Cell>
+			<Cell><Data ss:Type="String">1981-10-31</Data></Cell>
+			<Cell><Data ss:Type="String">Porlamar</Data></Cell>
+			<Cell><Data ss:Type="String">189</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String">2015-12-06</Data></Cell>
+			<Cell><Data ss:Type="String">El León de tribu de Judá</Data></Cell>
+			<Cell><Data ss:Type="String">2015-12-06</Data></Cell>
+			<Cell><Data ss:Type="String">Iglesia Biblica Emmanuel</Data></Cell>
+			<Cell><Data ss:Type="String">What is Lorem Ipsum?</Data></Cell>
+			<Cell><Data ss:Type="String">foto-2.jpeg</Data></Cell>
+			<Cell><Data ss:Type="String">670b9562-b30d-52d5-b827-655787665500</Data></Cell>
+			<Cell><Data ss:Type="String">Esposo(a)</Data></Cell>
+			<Cell><Data ss:Type="String">2</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-16 07:03:52</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="Number">3</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="String">Sergio</Data></Cell>
+			<Cell><Data ss:Type="String">Pastor</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">NIF</Data></Cell>
+			<Cell><Data ss:Type="String">3232323</Data></Cell>
+			<Cell><Data ss:Type="String">Av. Pablo Neruda</Data></Cell>
+			<Cell><Data ss:Type="String">500003</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">11</Data></Cell>
+			<Cell><Data ss:Type="String">pueblo 1</Data></Cell>
+			<Cell><Data ss:Type="String">650626144</Data></Cell>
+			<Cell><Data ss:Type="String">650626144</Data></Cell>
+			<Cell><Data ss:Type="String">pastor_sergio@gmail.com</Data></Cell>
+			<Cell><Data ss:Type="String">M</Data></Cell>
+			<Cell><Data ss:Type="String">1974-01-01</Data></Cell>
+			<Cell><Data ss:Type="String">Madrid</Data></Cell>
+			<Cell><Data ss:Type="String">3</Data></Cell>
+			<Cell><Data ss:Type="Number">33</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-09</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-11</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">caa54ad0-63bf-11ea-9afc-474419f99efb</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">1</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-09 11:39:05</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-11 12:43:17</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="Number">4</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String">Adrian</Data></Cell>
+			<Cell><Data ss:Type="String">Marcano</Data></Cell>
+			<Cell><Data ss:Type="String">Carrillo</Data></Cell>
+			<Cell><Data ss:Type="String">PAS</Data></Cell>
+			<Cell><Data ss:Type="String">9888888</Data></Cell>
+			<Cell><Data ss:Type="String">Avenida Cesar Augusto # 95</Data></Cell>
+			<Cell><Data ss:Type="String">500003</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">11</Data></Cell>
+			<Cell><Data ss:Type="String">pueblo 1</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String">amarcano474@gmail.com</Data></Cell>
+			<Cell><Data ss:Type="String">M</Data></Cell>
+			<Cell><Data ss:Type="String">2002-09-17</Data></Cell>
+			<Cell><Data ss:Type="String">Porlamar</Data></Cell>
+			<Cell><Data ss:Type="String">189</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">670b9562-b30d-52d5-b827-655787665500</Data></Cell>
+			<Cell><Data ss:Type="String">Hijo(a)</Data></Cell>
+			<Cell><Data ss:Type="String">1</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-11 09:32:06</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-13 06:15:32</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="Number">5</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String">Leonardo</Data></Cell>
+			<Cell><Data ss:Type="String">Bustamante</Data></Cell>
+			<Cell><Data ss:Type="String">Salazar</Data></Cell>
+			<Cell><Data ss:Type="String">PAS</Data></Cell>
+			<Cell><Data ss:Type="String">12345699</Data></Cell>
+			<Cell><Data ss:Type="String">Av cesar augusto</Data></Cell>
+			<Cell><Data ss:Type="String">500003</Data></Cell>
+			<Cell><Data ss:Type="Number">2</Data></Cell>
+			<Cell><Data ss:Type="Number">11</Data></Cell>
+			<Cell><Data ss:Type="String">dfdfddddf</Data></Cell>
+			<Cell><Data ss:Type="String">677045049</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">cabezita-7@hotmail.com</Data></Cell>
+			<Cell><Data ss:Type="String">M</Data></Cell>
+			<Cell><Data ss:Type="String">2004-09-18</Data></Cell>
+			<Cell><Data ss:Type="String">porlamar</Data></Cell>
+			<Cell><Data ss:Type="String">189</Data></Cell>
+			<Cell><Data ss:Type="Number">1</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">El león de la tribu de juda</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">Emmanuel</Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String"></Data></Cell>
+			<Cell><Data ss:Type="String">1</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-16 07:07:49</Data></Cell>
+			<Cell><Data ss:Type="String">2020-03-16 07:07:49</Data></Cell>
+		</Row>	</Table>
+</Worksheet>
+</Workbook>
