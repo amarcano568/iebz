@@ -325,12 +325,51 @@ class miembrosController extends Controller
 
         }
         
+        /**
+         *      Ministerios
+         */
+        $ministerios = $this->ministeriosDondeSirve($miembro->id);
+
+
         $miembroToRelacion = \App\Miembros::where('id','!=',$request->idMiembro)->get();
 
         $edad = Carbon::parse($miembro->fecNacimiento)->age;
         $miembro['edad'] = $edad;
 
-        return response()->json( array('success' => true, 'mensaje'=> '', 'data' => $miembro, 'archivosAdjuntos' => $miniaturasAdjuntas, 'grupoFamiliar' => $grupoFamiliar, 'miembroToRelacion' => $miembroToRelacion) );
+        return response()->json( array('success' => true, 'mensaje'=> '', 'data' => $miembro, 'archivosAdjuntos' => $miniaturasAdjuntas, 'grupoFamiliar' => $grupoFamiliar, 'miembroToRelacion' => $miembroToRelacion, 'ministerios' => $ministerios) );
+    }
+
+    public function ministeriosDondeSirve($idMiembro)
+    {
+        $ministerios = \App\Ministerios::get();
+        $salida = '';
+        foreach ($ministerios as $ministerio) {
+            $miembros = $ministerio->miembros;
+            $pos = strpos($miembros, (string)$idMiembro);
+            if ($pos !== false){
+                $salida .= '<li>
+                                <a>
+                                <span class="image">
+                                <i class="fa-2x fas fa-network-wired"></i>
+                                </span>
+                                <span>
+                                <span style="font-size: 18px;">'.$ministerio->nombre.'</span>
+                                </span>
+                                </a>
+                            </li>';
+            }
+        }
+
+        if ($salida == ''){
+            $salida = '<h4 class="text-info">No sirve en ningún Ministerio</h4>';
+        }else{
+            $salida = '<ul class="list-unstyled msg_list">
+                            '.$salida.'
+                        </ul>';
+        }
+
+        return $salida;
+
     }
 
     public function grupoFamiliar($idMiembro,$uuidFamilia)
@@ -705,83 +744,67 @@ class miembrosController extends Controller
 
     }
 
-    public function reportCumpleanos()
-    {
 
-        return view('miembros.cumpleanos');
+    public function relacionarGeneros()
+    {
+        return view('miembros.relacion-generos');
     }
 
-
-    public function listarCumpleanos(Request $request)
+    public function listarMiembrosGeneros()
     {
 
-        $miembros = \App\Miembros::join('iglesias','miembros.idIglesia','=','iglesias.id')->whereMonth('fecNacimiento', $request->mes)->where(['idIglesia'=>$request->iglesia,'miembros.status'=>1])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento')->get();
-        $miembros->map(function($miembro){           
-            $edad = Carbon::parse($miembro->fecNacimiento)->age;
-            $miembro->edad = $edad;
-        });     
-
-        $data = array(
-                        'miembros' => $miembros,
-                        'nombreMes' => $request->nombreMes
-                    );
-
-        $pdf = PDF::loadView('miembros.pdf-listado-cumpleanos',$data);  
-        $pdf->setPaper('A4', 'portrait');
-        $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
-        //save the pdf file on the server
-        file_put_contents($file_to_save, $pdf->stream('invoice'));
-
-        return "pdf/ficha-".$request->idMiembro.'.pdf';
-    }
-
-    public function reportRangoEdades()
-    {
-
-        $status = \App\Status::get();
-        $iglesias = \App\Iglesias::get();
-
-        $data = array(  
-
-                        'status'      => $status,
-                        'iglesias'    => $iglesias
-                     );
-
-        return view('miembros.edades',$data);
-    }
-
-    public function listarRangoEdad(Request $request)
-    {
-        $edad = explode(';',$request->rangeEdad);
-        $edadDesde = $edad[0];
-        $edadHasta = $edad[1];
-        $miembros = \App\Miembros::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE())'),array($edadDesde,$edadHasta))->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento',DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))->get();
-        // $miembros->map(function($miembro){           
-        //     $edad = Carbon::parse($miembro->fecNacimiento)->age;
-        //     $miembro->edad = $edad;
-        // });     
-
-        $data = array(
-                        'miembros' => $miembros,
-                        'edadDesde' => $edadDesde,
-                        'edadHasta' => $edadHasta
-                    );
-
+        $miembros = \App\Miembros::get();
         
+        $dataSet = array (
+            "sEcho"                 =>  0,
+            "iTotalRecords"         =>  1,
+            "iTotalDisplayRecords"  =>  1,
+            "aaData"                =>  array () 
+        );
 
-        $rand = rand(0,1000);
-        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
-        //$pdf->setPaper('A4', 'portrait');
-        //$file_to_save = base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
+        foreach($miembros as $miembro)
+        {
+            if ( $miembro->sexo == 'M' ){
+                $genero = '<span class="badge badge-pill badge-primary"><i class="fas fa-mars"></i> Masculino </span>';
+            }else if ( $miembro->sexo == 'F' ){ 
+                $genero = '<span class="badge badge-pill badge-danger"><i class="fas fa-venus"></i> Femenino </span>';
+            }else{
+                $genero = '';
+            }
+            $dataSet['aaData'][] = array(  $miembro->id,
+                                           $miembro->nombre,
+                                           $miembro->apellido1,
+                                           $miembro->apellido2,
+                                           $genero,
+                                           '<div class="icono-action">
+                                                <a href="" data-accion="Masculino" idMiembro="'.$miembro->id.'" >
+                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="cambiar genero a Masculino al miembro (<strong>'.$miembro->nombre.'</strong>)." class="fa-2x icono-action text-success fas fa-male">
+                                                    </i>
+                                                </a>
+                                                <a href="" data-accion="Femenino" idMiembro="'.$miembro->id.'" >
+                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Cambiar genero Femenino al 
+                                                     miembro (<strong>'.$miembro->nombre.'</strong>)." class="fa-2x icono-action text-danger fas fa-female">
+                                                    </i>
+                                                </a>
 
+                                            </div>'
+                                        );
+        }
 
-        //save the pdf file on the server
-        //file_put_contents($file_to_save, $pdf->stream('reporte'));
-
-        return "pdf/reporte-rango-edad".$rand.'.pdf';
+        $salidaDeDataSet = json_encode ($dataSet, JSON_HEX_QUOT);
+    
+        /* SE DEVUELVE LA SALIDA */
+        echo $salidaDeDataSet;
     }
 
-    
+    public function asignarGenero(Request $request)
+    {
+        $idMiembro = $request->idMiembro;
+        $genero = $request->genero;
+        $miembro = \App\Miembros::find($idMiembro);
+        $miembro->sexo = substr($genero, 0,1);
+        $miembro->save();
+    }
 
 
 }

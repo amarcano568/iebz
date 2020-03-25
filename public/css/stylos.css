@@ -1,3 +1,10 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .form-signin {
   width: 100%;
   max-width: 420px;

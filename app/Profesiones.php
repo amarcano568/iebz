@@ -8,7 +8,7 @@ class Profesiones extends Model
 {
     protected $table = 'profesiones';  
 
-     protected function Guardar($request)
+    protected function Guardar($request)
     {    	
         if ( is_null($request->idProfesion) ){     
             $profesion = new Profesiones;

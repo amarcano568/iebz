@@ -48,7 +48,7 @@
         <header>
             <img src="img/logo.png" alt="" width="15%" height="75%">
             <br>
-            <span class="text-center">Listado de Cumpleañeros Mes de {{ $nombreMes }}</span>
+            <span class="text-center">Informe de Cumpleañeros Mes de <strong> {{ $nombreMes }} </strong></span>
             <hr>
         </header>
         <br>

@@ -42,13 +42,14 @@
         max-width: : 20px !important;
         width: : 20px !important;
         }
+
         </style>
     </head>
     <body>
         <header>
             <img src="img/logo.png" alt="" width="15%" height="75%">
             <br>
-            <span class="text-center">Listado de Miembros por Rango de Edad ({{ $edadDesde }} años hasta {{ $edadHasta }} años)</span>
+            <span class="text-center">Informe de Miembros por Rango de Edad ({{ $edadDesde }} años hasta {{ $edadHasta }} años) con status {{ $status }}</span>
             <hr>
         </header>
         <br>
@@ -70,5 +71,9 @@
                 @endforeach
             </tbody>
         </table>
+
+        <br>
+
+        <h4 class="caja">Total Miembros en el rango de Edad: <strong>{{ $total }} </strong></h4>
     </body>
 </html>

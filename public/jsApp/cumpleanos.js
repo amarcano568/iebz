@@ -34,7 +34,7 @@ $(document).on('ready', function() {
                 nombreMes: nombreMes
             },
             beforeSend: function() {
-                loadingUI('Generando reporte de Cumpleaños');
+                loadingUI('Generando informe de Cumpleaños');
             }
         }).done(function(data) {
             console.log(data)

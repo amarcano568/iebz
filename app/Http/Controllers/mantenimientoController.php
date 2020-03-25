@@ -1051,7 +1051,7 @@ class mantenimientoController extends Controller
     }
 
     /**
-     *      Mantenimiento de Cargos.
+     *      Mantenimiento de Profesiones.
      */
     
     public function Profesiones(){
@@ -1166,6 +1166,125 @@ class mantenimientoController extends Controller
         }
        
     }
+
+    /**
+     *      Mantenimiento de Paises.
+     */
+    
+    public function paises(){
+
+        return view('mantenimiento.paises');
+    }
+
+    public function listarPaises(){
+
+        $paises = \App\Paises::get();
+        
+        
+        $dataSet = array (
+            "sEcho"                 =>  0,
+            "iTotalRecords"         =>  1,
+            "iTotalDisplayRecords"  =>  1,
+            "aaData"                =>  array () 
+        );
+        $contador = 1;
+        foreach ($paises as $pais) {
+
+            $id     = $pais->id;
+            $nombre = $pais->nombre; 
+            $status = $pais->status;
+                  
+            if ($status == 1){
+                $ActDes = '<span class="badge badge-pill badge-success">Activo</span>';
+                $etiqueta = '<a data-accion="inactivar" class="blue" href="" idPais="'.$id.'">
+                                <i class="ace-icon fa fa-unlock bigger-130" title="Inactivar Pais"></i>
+                            </a>';
+            }else{
+                $ActDes = '<span class="badge badge-pill badge-danger">Inactivo</span>';
+                $etiqueta = '<a data-accion="activar" class="purple" href="" idPais="'.$id.'">
+                                <i class="ace-icon fa fa-lock bigger-130" title="Activar Pais"></i>
+                            </a>';
+            }
+
+            $botones    = '<div class="action-buttons">
+                                <td>
+                                    <a idPais="'.$id.'" status="'.$status.'" data-accion="editarPais" class="green" href="">
+                                        <i class="far fa-edit" title="Editar Detalle del Pais"></i>
+                                    </a>
+                                    '.$etiqueta.'
+                                    
+                                    <a id="'.$id.'" class="red" style="display: none;">
+                                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                    </a>
+                                </td>
+                            </div>';
+
+
+            $dataSet['aaData'][] = array(   $id,
+                                            $nombre,
+                                            $ActDes,
+                                            $botones
+                                        );  
+            $contador++;            
+            
+        }       
+
+        $salidaDeDataSet = json_encode ($dataSet, JSON_HEX_QUOT);
+    
+        /* SE DEVUELVE LA SALIDA */
+        echo $salidaDeDataSet;
+    }
+
+
+    public function actualizarStatusPais(Request $request)
+    {
+
+        $pais = \App\Paises::find($request->idPais);
+ 
+        $pais->status = $pais->status == 1 ? 0 : 1;
+        if(!$pais->save()){
+            App::abort(500, 'Error');
+         }
+
+        return response()->json( array('success' => true, 'mensaje'=> 'Status cambiado exitosamente..!') );
+    }
+
+    public function EditarPais(Request $request){
+        //return $request;
+        try {
+            DB::beginTransaction();   
+            
+            $pais = \App\Paises::find($request->idPais);
+
+            return response()->json( array('success' => true, 'mensaje'=> 'Cargo guardado exitosamente..!', 'data' => $pais) );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return $this->internalException($e, __FUNCTION__);
+        }
+       
+    }
+
+    public function registrarPais(Request $request){
+        
+        try {
+            DB::beginTransaction();   
+   
+            $save = \App\Paises::Guardar($request);
+            DB::commit();
+            if(!$save){
+                App::abort(500, 'Error');
+            }
+
+            return response()->json( array('success' => true, 'mensaje'=> 'País guardado exitosamente..!') );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return $this->internalException($e, __FUNCTION__);
+        }
+       
+    }
+
     
 }
 

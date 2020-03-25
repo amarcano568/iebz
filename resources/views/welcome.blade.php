@@ -87,16 +87,38 @@
                                         </a>
                                     </li>
                                     @endcan
+                                    @can('ministerios')
+                                    <li>
+                                        <a href="{{URL::to('ministerios')}}">  
+                                            <i style="font-size: 20px;" class="fas fa-project-diagram"></i>
+                                            Ministerios 
+                                        </a>
+                                    </li>
+                                    @endcan
+                                    @can('generos')
+                                    <li>
+                                        <a href="{{URL::to('relacionar-generos')}}">  
+                                            <i style="font-size: 20px;" class="fas fa-venus-mars"></i>
+                                            Relacionar Generos 
+                                        </a>
+                                    </li>
+                                    @endcan
 
                                     @can('menu.reportes')
                                         <li>
                                             <a>
-                                                <i style="font-size: 20px;" class="fas fa-print"></i>  Reportes&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="fas fa-chevron-down"></span>
+                                                <i style="font-size: 20px;" class="fas fa-print"></i>  Informes&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="fas fa-chevron-down"></span>
                                             </a>
                                             <ul class="nav child_menu">
                                                 @can('report-ticket-enviados')
                                                 <li>
-                                                    <a href="{{URL::to('report-ticket-enviados')}}">Miembros
+                                                    <a href="{{URL::to('informe-miembros')}}">Miembros
+                                                    </a>
+                                                </li>
+                                                @endcan
+                                                @can('report-ticket-enviados')
+                                                <li>
+                                                    <a href="{{URL::to('informe-ministerios')}}">Ministerios
                                                     </a>
                                                 </li>
                                                 @endcan
@@ -135,11 +157,20 @@
                                                 </a>
                                             </li>
                                             @endcan
+                                            
+                                            @can('profesiones')
+                                                <li>
+                                                    <a href="{{URL::to('profesiones')}}">Profesiones
+                                                    </a>
+                                                </li>
+                                            @endcan
 
-                                            <li>
-                                                <a href="{{URL::to('profesiones')}}">Profesiones
-                                                </a>
-                                            </li>
+                                            @can('paises')
+                                                <li>
+                                                    <a href="{{URL::to('paises')}}">Paises
+                                                    </a>
+                                                </li>
+                                            @endcan
                                         </ul>
                                     </li>
                                 @endcan                                       

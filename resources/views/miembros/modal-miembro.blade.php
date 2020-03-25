@@ -20,6 +20,9 @@
                       <li class="nav-item">
                         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false"><i class="fas fa-paperclip"></i> Documentos</a>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="ministerios-tab" data-toggle="tab" href="#tabMinisterios" role="tab" aria-controls="contact" aria-selected="false"><i class="fas fa-project-diagram"></i> Ministerios</a>
+                      </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -31,6 +34,10 @@
                       </div>
                       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                         @include('miembros.documentos-adjuntos')
+
+                      </div>
+                      <div class="tab-pane fade" id="tabMinisterios" role="tabpanel" aria-labelledby="contact-tab">
+                        @include('miembros.mis-ministerios')
 
                       </div>
                     </div>

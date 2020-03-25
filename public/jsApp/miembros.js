@@ -419,6 +419,7 @@ $(document).on('ready', function() {
                     $("#codPostal").val(response.data.codigoPostal);
                     $("#direccion").val(response.data.direccion);
                     $("#comunidad").val(response.data.comunidad).trigger("chosen:updated");
+                    listarProvincias(response.data.comunidad,response.data.provincia);
                     $("#provincia").val(response.data.provincia).trigger("chosen:updated");
                     $("#poblacion").val(response.data.poblacion);
                     $("#telFijo").val(response.data.telefonoFijo);
@@ -443,6 +444,8 @@ $(document).on('ready', function() {
 
                     $("#adjuntosMiniatura").html(response.archivosAdjuntos);
                     $("#grupoFamiliar").html(response.grupoFamiliar);
+                    $("#misMinisterios").html(response.ministerios);
+
                     $('[data-toggle="tooltip"]').tooltip()
                     $('#miembroToRelacion').empty();
                     array = Object.values(response.miembroToRelacion);
@@ -489,7 +492,7 @@ $(document).on('ready', function() {
     });
 
 
-    function listarProvincias(idComunidad) {
+    function listarProvincias(idComunidad,idProvincia=null) {
         $.ajax({
             url: 'get-provincias',
             type: 'get',
@@ -512,6 +515,10 @@ $(document).on('ready', function() {
                 $(array).each(function(i, v) {
                     $("#provincia").append('<option value="' + v.id + '">' + v.nombre + '</option>');
                 })
+
+                if (idProvincia !==null){
+                    $("#provincia").val(idProvincia);
+                }
 
                 $("#provincia").trigger("chosen:updated");
             } else {

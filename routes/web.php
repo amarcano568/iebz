@@ -45,10 +45,7 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('eliminar-parentesco', 'miembrosController@eliminarParentesco');
 	Route::get('asignar-foto', 'miembrosController@asignarFoto');
 	Route::get('imprimir-ficha', 'miembrosController@imprimirFicha');
-	Route::get('report-cumpleanos', 'miembrosController@reportCumpleanos');
-	Route::get('listar-cumpleanos', 'miembrosController@listarCumpleanos');
-	Route::get('report-rango-edades', 'miembrosController@reportRangoEdades');
-	Route::get('listar-rango-edad', 'miembrosController@listarRangoEdad');
+	
 	Route::get('mantUsuarios', 'mantenimientoController@loadUsuarios')->name('mantUsuarios')->middleware('permission:mantUsuarios');
 	Route::get('carga-Usuarios', 'mantenimientoController@cargaUsuarios');
 	Route::post('subir-foto-perfil', 'miembrosController@subirFotoPerfil');
@@ -60,8 +57,50 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::post('registrar-profesion', 'mantenimientoController@registrarProfesion');
 
 
+	Route::get('paises', 'mantenimientoController@paises');
+	Route::get('listar-paises', 'mantenimientoController@listarPaises');
+	Route::get('actualizar-status-pais', 'mantenimientoController@actualizarStatusPais');
+	Route::get('editar-pais', 'mantenimientoController@editarPais');
+	Route::post('registrar-pais', 'mantenimientoController@registrarPais');
+
+	
 
 
+	/**
+	 * Informes
+	 */
+	Route::get('report-cumpleanos', 'informesController@reportCumpleanos');
+	Route::get('listar-cumpleanos', 'informesController@listarCumpleanos');
+	Route::get('report-rango-edades', 'informesController@reportRangoEdades');
+	Route::get('listar-rango-edad', 'informesController@listarRangoEdad');
+	Route::get('informe-miembros', 'informesController@informeMiembros');
+	Route::get('listado-miembros', 'informesController@listarMiembros');
+
+
+	/**
+	 * 					Ministerios
+	 */
+	Route::get('ministerios', 'ministeriosController@Ministerios');
+	Route::get('listar-ministerios', 'ministeriosController@listarMinisterios');
+	Route::get('excluir-miembro', 'ministeriosController@excluirMiembro');
+	Route::get('agregar-miembro-ministerio', 'ministeriosController@agregarMiembroMinisterio');
+	Route::get('buscar-foto-miembro', 'ministeriosController@buscarFotoMiembro');
+	Route::get('incluir-miembro-ministerio', 'ministeriosController@incluirMiembroMinisterio');
+	Route::get('bloquear-ministerio', 'ministeriosController@bloquearMinisterio');
+	Route::get('buscar-ministerio', 'ministeriosController@buscarMinisterio');
+	Route::post('registrar-ministerio', 'ministeriosController@registrarMinisterio');
+	Route::get('informe-ministerios', 'ministeriosController@informeMinisterios');
+	Route::get('listar-informe-ministerios', 'informesController@listarInformeMinisterios');
+	Route::get('crear-organigrama', 'ministeriosController@crearOrganigrama');
+	Route::get('borrar-ministerio', 'ministeriosController@borrarMinisterio');
+
+
+	/**
+	 * Relacionar Generos
+	 */
+	Route::get('relacionar-generos', 'miembrosController@relacionarGeneros');
+	Route::get('listar-miembros-generos', 'miembrosController@listarMiembrosGeneros');
+	Route::get('asignar-genero', 'miembrosController@asignarGenero');
 
 
 
@@ -90,56 +129,8 @@ Route::group(['middleware' => 'auth'], function (){
 		->middleware('permission:mantEmpresa');
 	Route::post('actualiza-empresa', 'mantenimientoController@actualizaEmpresa');	
 
-	/**
-	 *   Mnatenimiento tipo de Tickets
-	 */
-	//Route::get('mantTickets', 'mantenimientoController@loadMantTicket');
-	Route::get('mantTickets', 'mantenimientoController@loadMantTicket')->name('mantTickets')->middleware('permission:mantTickets');
-	Route::get('carga-tipos-tickets', 'mantenimientoController@cargaTiposTickets');
-	Route::get('llenar-chosen-areas', 'mantenimientoController@llenarChosenAreas');
-	Route::post('registrar-mant-ticket', 'mantenimientoController@registrarMantTicket');
 
-	/**
-	 *   Mnatenimiento de Categorías y Subcategorías
-	 */
-	//Route::get('mantCategorias', 'mantenimientoController@loadMantCategorias');
-	Route::get('mantCategorias', 'mantenimientoController@loadMantCategorias')->name('mantCategorias')->middleware('permission:mantCategorias');
-	Route::get('listar-categoria', 'mantenimientoController@listarCategoria');
-	Route::get('listar-aplicacion', 'mantenimientoController@listarAplicacion');
-	Route::post('registrar-sub-categoria', 'mantenimientoController@registrarSubCategoria');
-	Route::get('Act-Des-SubCategoria', 'mantenimientoController@ActDesSubCategoria');
-	Route::post('registrar-aplicacion', 'mantenimientoController@registrarAplicacion');
-	Route::get('Act-Des-Categoria', 'mantenimientoController@ActDesCategoria');
-	Route::post('registrar-categoria', 'mantenimientoController@registrarCategoria');
-
-	/**
-	 *   mantemimiento de Areas y Subareas
-	 */
-	Route::get('mantAreas', 'mantenimientoController@loadMantAreas')->name('mantAreas')->middleware('permission:mantAreas');
-	Route::get('listar-areas', 'mantenimientoController@listarAreas');
-	Route::get('Act-Des-Area', 'mantenimientoController@ActDesArea');
-	Route::post('registrar-area', 'mantenimientoController@registrarArea');
-	Route::post('registrar-sub-area', 'mantenimientoController@registrarSubArea');
-	Route::get('Act-Des-SubArea', 'mantenimientoController@ActDesSubArea');
-
-
-	/**
-	 *   Solicitud de Soporte
-	 */
-	//Route::get('solicitudSoporte', 'soporteController@solicitudSoporte');
-	Route::get('solicitudSoporte', 'soporteController@solicitudSoporte')->name('solicitudSoporte')
-		->middleware('permission:solicitudSoporte');
-	Route::get('listar-tipo_ticket', 'soporteController@listarTipoTicket');
-	Route::get('listar-categoria-ticket', 'soporteController@listarCategoriaTicket');
-	Route::get('carga-sub-categoria', 'soporteController@cargaSubCategoria');
-	Route::get('carga-sub-problemas', 'soporteController@cargaSubProblemas');
-	Route::get('listar_resumen_ticket_usuarios', 'soporteController@listarResumenTicketUsuarios');
-	Route::post('up-files-support', 'soporteController@upFilesSupport');
-	Route::post('enviar-ticket', 'soporteController@enviarTicket');
-	Route::get('listar-tickets-usuarios', 'soporteController@listarTicketsUsuarios');
-	Route::get('obtener-detalle-ticket', 'soporteController@obtenerDetalleTicket');
-	Route::get('anular-ticket', 'soporteController@anularTicket');
-	Route::post('encuesta-ticket', 'soporteController@encuestaTicket');
+	
 
 	/**
 	 *   Administración de Soporte
@@ -154,26 +145,7 @@ Route::group(['middleware' => 'auth'], function (){
 	// });
 
 	//Route::get('admin-Soporte', 'soporteController@adminSoporte');
-	Route::get('admin-Soporte', 'soporteController@adminSoporte')->name('admin-Soporte')
-		->middleware('permission:admin-Soporte');
-	Route::get('listar-tickets-Gestores', 'soporteController@listarTicketsGestores');
-	Route::get('listar_resumen_ticket_gestores', 'soporteController@listarResumenTicket_gestores');
-	Route::get('asignar-ticket', 'soporteController@asignarTicket');
-	Route::get('iniciar-ticket', 'soporteController@iniciarTicket');
-	Route::get('pausar-ticket', 'soporteController@pausarTicket');
-	Route::get('pbr-frecuente', 'soporteController@pbrFrecuente');
-	Route::get('terminar-ticket', 'soporteController@terminarTicket');
-	Route::get('new-solution', 'soporteController@newSolution');
-	Route::post('registrar-nuevo-activo', 'soporteController@registrarNuevoActivo');
-	Route::post('up-files-support-2', 'soporteController@upFilesSupport2');
-	Route::post('cambiar-area-ticket', 'soporteController@cambiarAreaTicket');
-	Route::post('reapertura-ticket', 'soporteController@reaperturaTicket');
-
-	/**
-	 *  Mensajes
-	 */	
-	Route::get('enviar-mensaje-ticket', 'soporteController@enviarMensajeTicket');
-	Route::get('listar-mensaje-ticket', 'soporteController@listarMensajeTicket');
+	
 
 	/**
 	 * 			Perfil del Usuario
@@ -182,18 +154,6 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('listar-tickets-perfil', 'mantenimientoController@listarTicketsPerfil');
 	
 	
-
-	
-
-	/**
-	 * 				Reportes
-	 */
-	//Route::get('report-ticket-enviados', 'reportesController@reportTicketEnviados');
-	Route::get('report-ticket-enviados', 'reportesController@reportTicketEnviados')->name('report-ticket-enviados')->middleware('permission:report-ticket-enviados');
-	Route::get('listados-tickets-enviados', 'reportesController@listadosTicketsEnviados');
-	Route::get('grafico-reporte-ticket-recibido', 'reportesController@graficoReporteTicketRecibido');
-	//Route::get('report-estadisticas', 'reportesController@reporteEstadisticas');
-	Route::get('report-estadisticas', 'reportesController@reporteEstadisticas')->name('report-estadisticas')->middleware('permission:report-estadisticas');
 
 	/**
 	 * 		Roles

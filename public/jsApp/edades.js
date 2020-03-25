@@ -52,6 +52,7 @@ $(document).on('ready', function() {
         idIglesia = $("#idIglesia").val();
         status = $("#status").val();
         rangeEdad = $( "#rangeEdad" ).val();
+        nombreStatus = $("#status option:selected").text();
     
         $.ajax({
             url: 'listar-rango-edad',
@@ -59,10 +60,11 @@ $(document).on('ready', function() {
             data: {
                 idIglesia: idIglesia,
                 status: status,
-                rangeEdad: rangeEdad
+                rangeEdad: rangeEdad,
+                nombreStatus: nombreStatus
             },
             beforeSend: function() {
-                loadingUI('Generando reporte de Rango de Edades');
+                loadingUI('Generando informe de Rango de Edades');
             }
         }).done(function(data) {
             console.log(data)
