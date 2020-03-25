@@ -75,7 +75,7 @@
         
         <div style="float: right;">
           <button type="submit" class="btn btn-outline-success"><i class="far fa-save"></i> Guardar</button>
-          <button type="button" class="btn btn-outline-danger"><i class="far fa-times-circle"></i> Cerrar</button>
+          <button type="button" class="btn btn-outline-danger" id="btnCerrar"><i class="far fa-times-circle"></i> Cerrar</button>
         </div>
         
         <div class="x_panel">

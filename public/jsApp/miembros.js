@@ -808,6 +808,11 @@ $(document).on('ready', function() {
 
     })
 
+    $('#btnCerrar').click(function(event) {
+        event.preventDefault();
+        $("#ModalAgregarMiembro").modal('hide');
+    });
+
     $('#btnAgregarRelacion').click(function() {
 
         idMiembro = $("#idMiembro").val();
