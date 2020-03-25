@@ -9,9 +9,6 @@ $(document).on('ready', function() {
 
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
 
-
-
-
     listarUsuarios();
 
     function listarUsuarios() {
@@ -110,36 +107,15 @@ $(document).on('ready', function() {
     });
 
     function validaAgregarUsuario() {
-        $.ajax({
-            url: 'verifica-licencia',
-            type: 'get',
-            datatype: 'json',
-            beforeSend: function() {
-                loadingUI('Verificando licencia');
-            }
-        }).done(function(data) {
-            $.unblockUI();
-            console.log(data)
-            if (data.success === false) {
-                Pnotifica('Usuarios excedido.', data.mensaje, 'error', false);
-            } else {
-                $('#form_register_usuario').each(function() {
-                    this.reset();
-                });
-                $("#cargo").val('').trigger("chosen:updated");
-                $("#area").val('').trigger("chosen:updated");
-                $("#subArea").val('').trigger("chosen:updated");
-                $('#modal-usuario').modal('show');
-                $('#exampleModalLabel').html('<i class="text-primary fas fa-user-plus"></i> Agregar un nuevo usuario..!')
-            }
 
-
-
-        }).fail(function(statusCode, errorThrown) {
-            $.unblockUI();
-            console.log(errorThrown);
-            ajaxError(statusCode, errorThrown);
+        $('#form_register_usuario').each(function() {
+            this.reset();
         });
+        $("#cargo").val('').trigger("chosen:updated");
+        $("#area").val('').trigger("chosen:updated");
+        $("#subArea").val('').trigger("chosen:updated");
+        $('#modal-usuario').modal('show');
+        $('#exampleModalLabel').html('<i class="text-primary fas fa-user-plus"></i> Agregar un nuevo usuario..!')
     }
 
     $('#modal-usuario').on('shown.bs.modal', function() {
