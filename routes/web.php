@@ -102,6 +102,11 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('listar-miembros-generos', 'miembrosController@listarMiembrosGeneros');
 	Route::get('asignar-genero', 'miembrosController@asignarGenero');
 
+	/**
+	 *  	Info pagina Inicial
+	 */
+	Route::get('load-info', 'mantenimientoController@loadInfo');
+
 
 
 
