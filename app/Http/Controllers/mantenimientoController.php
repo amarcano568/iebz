@@ -303,6 +303,18 @@ class mantenimientoController extends Controller
        
     }
 
+    public function registrarProfesionMiembros(Request $request){
+        //return $request; 
+        $profesion = new \App\Profesiones;       
+        $profesion->nombre = $request->nombreProfesion;
+        $profesion->status = 1;  
+        $profesion->save();
+        $id = $profesion->id;
+        
+        return response()->json( array('success' => true, 'mensaje'=> 'Profesión guardada exitosamente..!', 'idNuevaProfesion' => $id) );
+       
+    }
+
     public function EditarProfesion(Request $request){
         //return $request;
         try {

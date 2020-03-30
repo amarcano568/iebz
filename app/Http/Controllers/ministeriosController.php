@@ -15,6 +15,7 @@ use \Profesiones;
 use \Status;
 use \Usuarios;
 use \Ministerios;
+use \SubMinisterios;
 use Uuid;
 use PDF;
 use Illuminate\Http\Request;
@@ -66,13 +67,15 @@ class ministeriosController extends Controller
                                                     <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar ministerio (<strong>'.$ministerio->nombre.'</strong>)." class="icono-action text-primary far fa-edit">
                                                     </i>
                                                 </a>                                                
-												<a href="" data-accion="agregarMiembro" idMinisterio="'.$ministerio->id.'" ministerio="'.$ministerio->nombre.'">
+												<a href="" data-accion="agregarMiembro" idMinisterio="'.$ministerio->id.'" ministerio="'.$ministerio->nombre.'" nivel="1">
                                                     <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Incluir Miembro al Ministerio de <strong>'.$ministerio->nombre.'</strong>." class="fas fa-user-plus text-primary"></i>
                                                 </a>
                                                 <a href="" data-accion="bloquearMinisterio" idMinisterio="'.$ministerio->id.'" status="'.$ministerio->status.'">
                                                     '.$candado.'
                                                 </a>
-
+                                                <a href="" class="borrarMinisterio" idMinisterio="'.$ministerio->id.'" Nombre="'.$ministerio->nombre.'" nivel="1">
+                                                    <i style="cursor: pointer;" class="text-danger far fa-trash-alt" nivel="1"></i>
+                                                </a>
                                             </div>'
                                         );
         }
@@ -94,7 +97,7 @@ class ministeriosController extends Controller
 	    						<td>'.$persona->id.'</td>
 	    						<td>'.$persona->nombre.' '.$persona->apellido1.' '.$persona->apellido2.'</td>
 	    						<td>
-	    							<a href="" idMiembro="'.$idMiembro.'" idMinisterio="'.$idMinisterio.'" class="excluirMiembro">
+	    							<a href="" idMiembro="'.$idMiembro.'" idMinisterio="'.$idMinisterio.'" class="excluirMiembro" nivel="1">
 	                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Excluir del Ministerio."  class="text-danger fas fa-user-times"></i>
 	                                </a>
 	    						</td>
@@ -116,15 +119,19 @@ class ministeriosController extends Controller
 
     public function excluirMiembro(Request $request)
     {
-        $ministerio = \App\Ministerios::find($request->idMinisterio);
-
-        $miembros = $ministerio->miembros;
-
-        $newMiembros = str_replace($request->idMiembro.';', "", $miembros);
-
-        $ministerio->miembros = $newMiembros;
-
-        $ministerio->save();
+        if ($request->nivel == 1){
+            $ministerio = \App\Ministerios::find($request->idMinisterio);
+            $miembros = $ministerio->miembros;
+            $newMiembros = str_replace($request->idMiembro.';', "", $miembros);
+            $ministerio->miembros = $newMiembros;
+            $ministerio->save();
+        }else{
+            $subMinisterio = \App\SubMinisterios::find($request->idMinisterio);
+            $miembros = $subMinisterio->miembros;
+            $newMiembros = str_replace($request->idMiembro.';', "", $miembros);
+            $subMinisterio->miembros = $newMiembros;
+            $subMinisterio->save();
+        }
 
         return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
     }
@@ -132,14 +139,18 @@ class ministeriosController extends Controller
 
 	public function agregarMiembroMinisterio(Request $request)
     {
-
-    	$idMinisterio = $request->idMinisterio;
-    	$ministerio = \App\Ministerios::find($idMinisterio);
-        $lista = substr(str_replace(';', ",", $ministerio->miembros), 0, -1);
+        $idMinisterio = $request->idMinisterio;
+        if ($request->nivel == 1){
+        	$ministerio = \App\Ministerios::find($idMinisterio);
+            $lista = substr(str_replace(';', ",", $ministerio->miembros), 0, -1);
+        }else{
+            $subMinisterio = \App\SubMinisterios::find($idMinisterio);
+            $lista = substr(str_replace(';', ",", $subMinisterio->miembros), 0, -1);
+        }
 
     	$miembros = \App\Miembros::whereNotIn('id',explode(',', $lista))->get();
 
-    	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente', 'data' => $miembros ) );
+    	return response()->json( array('success' => true, 'mensaje'=> 'Ministerios listados correctamente', 'data' => $miembros ) );
 
 
     }
@@ -165,17 +176,27 @@ class ministeriosController extends Controller
 
     public function incluirMiembroMinisterio(Request $request)
     {
-        $ministerio = \App\Ministerios::find($request->idMinisterio);
-
-        if ($ministerio->status == 1){
-        	$miembros = $ministerio->miembros.$request->idMiembro.';';
-        	$ministerio->miembros = $miembros;
-        	$ministerio->save();
-        	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
+        if ($request->nivel == 1){
+            $ministerio = \App\Ministerios::find($request->idMinisterio);
+            if ($ministerio->status == 1){
+            	$miembros = $ministerio->miembros.$request->idMiembro.';';
+            	$ministerio->miembros = $miembros;
+            	$ministerio->save();
+            	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
+            }else{
+            	return response()->json( array('success' => false, 'mensaje'=> 'No se puede Incluir Miembro a este Ministerio por que se encuentra inactivo') );
+            }
         }else{
-        	return response()->json( array('success' => false, 'mensaje'=> 'No se puede Incluir Miembro a este Ministerio por que se encuentra inactivo') );
+            $subMinisterio = \App\SubMinisterios::find($request->idMinisterio);
+            if ($subMinisterio->status == 1){
+                $miembros = $subMinisterio->miembros.$request->idMiembro.';';
+                $subMinisterio->miembros = $miembros;
+                $subMinisterio->save();
+                return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
+            }else{
+                return response()->json( array('success' => false, 'mensaje'=> 'No se puede Incluir Miembro a este Ministerio por que se encuentra inactivo') );
+            }
         }
-
     }
 
 
@@ -202,23 +223,37 @@ class ministeriosController extends Controller
 
     public function registrarMinisterio(Request $request)
     {
+        if ($request->nivelNuevoMinisterio == 1){
+        	if ( is_null($request->idMinisterioAgregar) ){     
+                $ministerio = new \App\Ministerios;
+            }else{
+                $ministerio  = \App\Ministerios::find($request->idMinisterioAgregar);    
+            }
+            $ministerio->nombre = $request->nombreMinisterio;
+            $ministerio->status = $request->statusMinisterio;
 
-    	if ( is_null($request->idMinisterioAgregar) ){     
-            $ministerio = new \App\Ministerios;
-        	//$profesion->descprofesion= $request->descprofesion;
+            if(!$ministerio->save()){
+                return response()->json( array('success' => false, 'mensaje'=> 'Hubo un problema tratando de actualizar los datos del Ministerio..!') );
+             }else{
+             	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado exitosamente..!') );
+             }
         }else{
-            $ministerio  = \App\Ministerios::find($request->idMinisterioAgregar);    
+            if ( is_null($request->idMinisterioAgregar) ){     
+                $subMinisterio = new \App\SubMinisterios;
+                $subMinisterio->idMinisterio = $request->idNuevoMinisterio;
+            }else{
+                $subMinisterio  = \App\subMinisterios::find($request->idMinisterioAgregar);    
+            }
+            $subMinisterio->nombre = $request->nombreMinisterio;
+            $subMinisterio->status = $request->statusMinisterio;
+
+            if(!$subMinisterio->save()){
+                return response()->json( array('success' => false, 'mensaje'=> 'Hubo un problema tratando de actualizar los datos del Ministerio..!') );
+             }else{
+                return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado exitosamente..!') );
+             }
         }
-        $ministerio->nombre = $request->nombreMinisterio;
-        $ministerio->status = $request->statusMinisterio;
 
-        if(!$ministerio->save()){
-            return response()->json( array('success' => false, 'mensaje'=> 'Hubo un problema tratando de actualizar los datos del Ministerio..!') );
-         }else{
-         	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado exitosamente..!') );
-         }
-
-        return response()->json( array('success' => true, 'mensaje'=> 'Status cambiado exitosamente..!', 'data' => $ministerio) );
     }
 
     public function informeMinisterios()
@@ -238,18 +273,31 @@ class ministeriosController extends Controller
         $ministerios = \App\Ministerios::get();
         $salida = '<ul>
         <li>
-          <a >Ministerios&nbsp;&nbsp;&nbsp;<i style="cursor: pointer;" class="btnAgregarMinisterio text-primary fas fa-plus"></i></a>
+          <a >Ministerios&nbsp;&nbsp;&nbsp;<i style="cursor: pointer;" nivel="1" class="btnAgregarMinisterio text-primary fas fa-plus"></i></a>
             <ul>';
         
         foreach ($ministerios as $ministerio) {
             $status = $ministerio->status == 1 ? '<br><span class="badge badge-pill badge-success">&nbsp;Activo&nbsp;</span>' : '<br><span class="badge badge-pill badge-danger">&nbsp;Inactivo&nbsp;</span>';
             $total = count(explode(';',$ministerio->miembros))-1;
             $salida .= '<li>
-                            <a><span class="text-info"><strong>'
-                                .$ministerio->nombre.'</strong><span class="text-success">&nbsp;&nbsp;&nbsp;<i style="cursor: pointer;" class="fas fa-user-plus agregarMiembro" Nombre="'.$ministerio->nombre.'" idMinisterio="'.$ministerio->id.'" ></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i  style="cursor: pointer;" Nombre="'.$ministerio->nombre.'" idMinisterio="'.$ministerio->id.'"  class="borrarMinisterio text-danger far fa-trash-alt"></i></span></span>'.$status
-                                .'<br>Miembros # '.$total
-                                .'<br><br>'.$this->miembrosMinisterio($ministerio->miembros,$ministerio->id).
+                            <a>
+                                <span class="text-info">
+                                    <strong>
+                                        '.$ministerio->nombre.'
+                                    </strong>
+                                    <span class="text-success">
+                                        &nbsp;&nbsp;&nbsp;
+                                        <i nivel="1" style="cursor: pointer;" class="fas fa-user-plus agregarMiembro" Nombre="'.$ministerio->nombre.'" idMinisterio="'.$ministerio->id.'" ></i>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <i  style="cursor: pointer;" Nombre="'.$ministerio->nombre.'" idMinisterio="'.$ministerio->id.'"  class="borrarMinisterio text-danger far fa-trash-alt" nivel="1"></i>
+                                        &nbsp;&nbsp;
+                                        <i style="cursor: pointer;" nivel="2"  idMinisterio="'.$ministerio->id.'" class="btnAgregarMinisterio text-info fas fa-network-wired"></i>
+                                    </span>
+                                </span>
+                                '.$status.'<br>Miembros # '.$total
+                                .'<br><br>'.$this->miembrosMinisterio($ministerio->miembros,$ministerio->id,1).
                             '</a>
+                            '.$this->subMinisterios($ministerio->id).'
                         </li>';
         }
 
@@ -261,13 +309,53 @@ class ministeriosController extends Controller
 
     }
 
-    public function miembrosMinisterio($miembros,$idMinisterio)
+    public function subMinisterios($idMinisterio)
+    {
+        $subMinisterios = \App\SubMinisterios::where('idMinisterio',$idMinisterio)->get();
+
+        $salida = '';
+
+        if ($subMinisterios->count() > 0){
+            foreach ($subMinisterios as $subMinisterio) {
+                $status = $subMinisterio->status == 1 ? '<br><span class="badge badge-pill badge-success">&nbsp;Activo&nbsp;</span>' : '<br><span class="badge badge-pill badge-danger">&nbsp;Inactivo&nbsp;</span>';
+                $total = count(explode(';',$subMinisterio->miembros))-1;
+                $salida .= '<li>
+                                <a>
+                                    <span class="text-info">
+                                        <strong>
+                                            '.$subMinisterio->nombre.'
+                                        </strong>
+                                        <span class="text-success">
+                                            &nbsp;&nbsp;&nbsp;
+                                            <i nivel="2" style="cursor: pointer;" class="fas fa-user-plus agregarMiembro" Nombre="'.$subMinisterio->nombre.'" idMinisterio="'.$subMinisterio->id.'" ></i>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <i  style="cursor: pointer;" Nombre="'.$subMinisterio->nombre.'" idMinisterio="'.$subMinisterio->id.'"  class="borrarMinisterio text-danger far fa-trash-alt" nivel="2"></i>
+                                        </span>
+                                    </span>
+                                    '.$status.'<br>Miembros # '.$total
+                                    .'<br><br>
+                                    '.$this->miembrosMinisterio($subMinisterio->miembros,$subMinisterio->id,2).'
+                                </a>
+                            </li>';
+            }
+
+            return '<ul>
+                    '.$salida.'      
+                    </ul>';
+        }
+
+        return '';
+
+        
+    }
+
+    public function miembrosMinisterio($miembros,$idMinisterio,$nivel)
     {
         $lista = substr(str_replace(';', ",", $miembros), 0, -1);
         $listaMiembros = \App\Miembros::select('id','nombre','apellido1','apellido2','telefonoFijo','telefonoMovil','email')->whereIn('id',explode(',', $lista))->get();
         $salida = '';    
         foreach ($listaMiembros as $miembro) {
-            $salida .= '<span class="float-left">'.$miembro->nombre.' '.$miembro->apellido1.'&nbsp; <i style="cursor: pointer;" idMiembro="'.$miembro->id.'" idMinisterio="'.$idMinisterio.'"  class="excluirMiembro text-danger fas fa-user-times"></i>'.'</span><br>';
+            $salida .= '<span class="float-left">'.$miembro->nombre.' '.$miembro->apellido1.'&nbsp; <i style="cursor: pointer;" idMiembro="'.$miembro->id.'" idMinisterio="'.$idMinisterio.'"  nivel="'.$nivel.'" class="excluirMiembro text-danger fas fa-user-times"></i>'.'</span><br>';
         }
 
         return $salida;
@@ -275,8 +363,13 @@ class ministeriosController extends Controller
 
 
     public function borrarMinisterio(Request $request)
-    {
-        \App\Ministerios::destroy($request->idMinisterio);
+    {   
+        if ($request->nivel == 1){
+            \App\Ministerios::destroy($request->idMinisterio);
+        }else{
+            \App\SubMinisterios::destroy($request->idMinisterio);
+        }
+        
         return response()->json( array('success' => true, 'mensaje'=> 'Ministerio borrado exitosamente') );
 
     } 

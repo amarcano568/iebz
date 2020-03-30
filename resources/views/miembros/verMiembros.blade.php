@@ -17,7 +17,6 @@
         <th>Apellido 2</th>
         <th>Edad</th>
         <th><i class="fas fa-mobile-alt"></i></i> Movil</th>
-        <th>Membresía</th>
         <th>Status</th>
         <th>Detalle</th>
         <th></th>
@@ -34,6 +33,7 @@
 @include('miembros.modal-agregar-documento')
 @include('miembros.modal-detalle-imagen')
 @include('miembros.modal-agregar-miembro-existente')
+@include('mantenimiento.modal-profesion-miembros')
 
 @endsection
 

@@ -498,6 +498,60 @@
         ]
     },
     {
+        "name": "codedge/laravel-fpdf",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/codedge/laravel-fpdf.git",
+            "reference": "b33e4f32c0a2c4e7c17631179dc726ccd1f78b39"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/codedge/laravel-fpdf/zipball/b33e4f32c0a2c4e7c17631179dc726ccd1f78b39",
+            "reference": "b33e4f32c0a2c4e7c17631179dc726ccd1f78b39",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "5.*|6.*",
+            "php": ">=7.2"
+        },
+        "time": "2019-12-27T23:06:03+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Codedge\\Fpdf\\FpdfServiceProvider"
+                ],
+                "aliases": {
+                    "Fpdf": "Codedge\\Fpdf\\Facades\\Fpdf"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Codedge\\Fpdf\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Holger Lösken",
+                "email": "holger.loesken@codedge.de"
+            }
+        ],
+        "description": "Laravel package to include Fpdf. It ships with Fpdf 1.81.",
+        "keywords": [
+            "fpdf",
+            "laravel",
+            "pdf"
+        ]
+    },
+    {
         "name": "dnoegel/php-xdg-base-dir",
         "version": "v0.1.1",
         "version_normalized": "0.1.1.0",

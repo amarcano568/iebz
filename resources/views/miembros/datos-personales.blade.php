@@ -198,7 +198,7 @@
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                 <div class="form-label-group">
-                  <input type="text" id="lugNacimiento" name="lugNacimiento" class="form-controls" placeholder="Lugar de Nacimiento" aria-invalid="false" >
+                  <input type="text" id="lugNacimiento" name="lugNacimiento" class="form-controls" placeholder="Lugar de Nacimiento" aria-invalid="false" style="width: 100%">
                   <label for="nombreEmpresa">Lugar de Nacimiento</label>
                 </div>
               </div>
@@ -213,7 +213,7 @@
                 </select>
               </div>
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <select id="profesion" name="profesion" class="chosen-select" data-placeholder="Seleccione una Profesión..." >
+                <select id="profesion" name="profesion" class="chosen-select" data-placeholder="Seleccione una Profesión...">
                   <option value=""></option>
                   <option value="0">No Tiene Profesión</option>
                   @foreach( $profesiones as $profesion )
@@ -222,6 +222,7 @@
                   </option>
                   @endforeach
                 </select>
+                <a href="" id="BtnNuevo"><i class="float-right text-primary fas fa-plus-circle"></i></a>
               </div>
             </div>
             <div class="row">

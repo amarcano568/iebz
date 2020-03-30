@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('eliminar-parentesco', 'miembrosController@eliminarParentesco');
 	Route::get('asignar-foto', 'miembrosController@asignarFoto');
 	Route::get('imprimir-ficha', 'miembrosController@imprimirFicha');
+	Route::get('eliminar-miembro', 'miembrosController@eliminarMiembro');
+	
 	
 	Route::get('mantUsuarios', 'mantenimientoController@loadUsuarios')->name('mantUsuarios')->middleware('permission:mantUsuarios');
 	Route::get('carga-Usuarios', 'mantenimientoController@cargaUsuarios');
@@ -55,6 +57,7 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('actualizar-status-profesion', 'mantenimientoController@actualizarStatusProfesion');
 	Route::get('editar-profesion', 'mantenimientoController@editarProfesion');
 	Route::post('registrar-profesion', 'mantenimientoController@registrarProfesion');
+	Route::post('registrar-profesion-miembros', 'mantenimientoController@registrarProfesionMiembros');
 
 
 	Route::get('paises', 'mantenimientoController@paises');

@@ -70,6 +70,7 @@ $(document).on('ready', function() {
                 designColumn(designCol);
                 //objetoDataTables_Miembros.search(dataFilter).draw();
                 $(".chosen-select").chosen(configChosen());
+
                 $('#idAreaColumn').trigger("chosen:updated");
                 $('[data-toggle="popover"]').popover()
 
@@ -99,8 +100,6 @@ $(document).on('ready', function() {
                 "data": 8
             }, {
                 "data": 9
-            }, {
-                "data": 10
             }],
             "columnDefs": [{
                     className: "dt-head-center",
@@ -110,19 +109,20 @@ $(document).on('ready', function() {
                     "width": "2.5%",
                     "targets": 0
                 }, {
-                    "width": "5%",
-                    "targets": 1
+                    "width": "2.5%",
+                    "targets": 1,
                 }, {
                     "width": "5%",
-                    "targets": 2
+                    "targets": 2,
+                    "orderable": false
                 }, {
-                    "width": "30%",
+                    "width": "20%",
                     "targets": 3
                 }, {
-                    "width": "30%",
+                    "width": "20%",
                     "targets": 4
                 }, {
-                    "width": "30%",
+                    "width": "20%",
                     "targets": 5,
                     "className": "text-center"
                 }, {
@@ -133,28 +133,21 @@ $(document).on('ready', function() {
                     "targets": 7
                 }, {
                     "width": "5%",
-                    "targets": 8
-                }, {
-                    "width": "5%",
-                    "targets": 9,
+                    "targets": 8,
                     "orderable": false
                 }, {
-                    "width": "5%",
-                    "targets": 10
-                }, {
-                    "width": "5%",
-                    "targets": 11,
-                    "orderable": false
+                    "width": "7.5%",
+                    "targets": 9
                 }
             ],
 
         });
-        objetoDataTables_Miembros.columns(10).visible(false);
+        objetoDataTables_Miembros.columns(9).visible(false);
 
     }
 
     function designColumn(table) {
-        table.api().columns([2, 9]).every(function() {
+        table.api().columns([2, 8]).every(function() {
             var column = this;
             if (column[0] == 2) {
                 placeholder = 'Iglesia...';
@@ -382,6 +375,8 @@ $(document).on('ready', function() {
 
         accion_ok = $(this).attr('data-accion');
         idMiembro = $(this).attr('idMiembro');
+        nombreMiembro = $(this).attr('nombreMiembro');
+        foto = $(this).attr('foto');
 
         switch (accion_ok) {
 
@@ -419,7 +414,7 @@ $(document).on('ready', function() {
                     $("#codPostal").val(response.data.codigoPostal);
                     $("#direccion").val(response.data.direccion);
                     $("#comunidad").val(response.data.comunidad).trigger("chosen:updated");
-                    listarProvincias(response.data.comunidad,response.data.provincia);
+                    listarProvincias(response.data.comunidad, response.data.provincia);
                     $("#provincia").val(response.data.provincia).trigger("chosen:updated");
                     $("#poblacion").val(response.data.poblacion);
                     $("#telFijo").val(response.data.telefonoFijo);
@@ -461,6 +456,56 @@ $(document).on('ready', function() {
 
                 break;
 
+            case 'eliminarMiembro': // Eliminar Membro
+                alertify.confirm('<i class="text-danger far fa-trash-alt"></i><span class="text-danger"> Eliminar Miembro</span>', '<h4 class="text-info">Esta seguro de eliminar la Ficha de <strong>'+nombreMiembro+'</strong> ..?</h4><br><center><img class="img-fluid img-thumbnail" src="' + foto + '" height="100" width="100"></center>', function() {
+
+                    $.ajax({
+                        url: 'eliminar-miembro',
+                        type: 'get',
+                        data: {
+                            idMiembro: idMiembro
+                        },
+                        beforeSend: function() {
+                            loadingUI('Eliminando ficha del Miembro...');
+                        }
+                    }).done(function(response) {
+                        console.log(response);
+                        objetoDataTables_Miembros.ajax.reload();
+                        $.unblockUI();
+
+                        if (response.success === true) {
+                            icono = 'success';
+                        } else {
+                            icono = 'error';
+                        }
+
+                        Swal.fire({
+                            position: 'top-end',
+                            type: icono,
+                            title: response.mensaje,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                    }).fail(function(statusCode, errorThrown) {
+                        $.unblockUI();
+                        console.log(errorThrown);
+                        ajaxError(statusCode, errorThrown);
+                    });
+
+                }, function() { // En caso de Cancelar              
+                    alertify.error('<i class="fa-2x fas fa-ban"></i><br>Se Cancelo el Proceso para Eliminar la ficha de '+nombreMiembro);
+                }).set('labels', {
+                    ok: 'Confirmar',
+                    cancel: 'Cancelar'
+                }).set({
+                    transition: 'zoom'
+                }).set({
+                    modal: true,
+                    closableByDimmer: false
+                });
+                break;
+
         }
     });
 
@@ -492,7 +537,7 @@ $(document).on('ready', function() {
     });
 
 
-    function listarProvincias(idComunidad,idProvincia=null) {
+    function listarProvincias(idComunidad, idProvincia = null) {
         $.ajax({
             url: 'get-provincias',
             type: 'get',
@@ -516,7 +561,7 @@ $(document).on('ready', function() {
                     $("#provincia").append('<option value="' + v.id + '">' + v.nombre + '</option>');
                 })
 
-                if (idProvincia !==null){
+                if (idProvincia !== null) {
                     $("#provincia").val(idProvincia);
                 }
 
@@ -583,7 +628,8 @@ $(document).on('ready', function() {
             success: function(file, response) {
                 console.log(response);
                 fotoSubida = response.data
-                $("#fotoUsuario").html('<img class="img-thumbnail img-responsive avatar-view" src="img/fotos/' + fotoSubida + '" height="300" width="100">')
+                var dt = new Date();
+                $("#fotoUsuario").html('<img class="img-thumbnail img-responsive avatar-view" src="img/fotos/' + fotoSubida + "?" + dt.getTime() + '" height="300" width="100">')
             },
             error: function(file, response) {
                 return false;
@@ -857,6 +903,67 @@ $(document).on('ready', function() {
             ajaxError(statusCode, errorThrown);
         });
     });
+
+    $(document).on('click', '#BtnNuevo', function(event) {
+        event.preventDefault();
+        $('#FormMantProfesion').each(function() {
+            this.reset();
+        });
+        $("#tituloModal").html('<i class="fas fa-user-edit"></i> Nueva Profesión.')
+        $("#ModalMantProfesion").modal('show');
+        $("#nombreProfesion").focus();
+    });
+
+    $("#FormMantProfesion").validate({
+        rules: {
+            nombreProfesion: {
+                required: true,
+                minlength: 5
+            }
+
+        },
+        messages: {
+            nombreProfesion: '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Debe introducir Descripción para el cargo.'
+        },
+        submitHandler: function(form) {
+
+            var form = $('#FormMantProfesion');
+            var formData = form.serialize();
+            var route = form.attr('action');
+
+            $.ajax({
+                url: route,
+                type: 'POST',
+                data: formData,
+                beforeSend: function() {
+                    loadingUI('Creando Nueva Profesión');
+                }
+            }).done(function(data) {
+
+                $("#ModalMantProfesion").modal('hide');
+                if (data.success === true) {
+                    Pnotifica('Profesión', data.mensaje, 'success', true);
+                } else {
+                    Pnotifica('Profesión', data.mensaje, 'error', true);
+                }
+                nom = $("#nombreProfesion").val();
+                $("#profesion").append('<option value="' + data.idNuevaProfesion + '">' + nom + '</option>');
+                $("#profesion").val(data.idNuevaProfesion).trigger("chosen:updated");
+
+                $.unblockUI();
+
+            }).fail(function(statusCode, errorThrown) {
+                $.unblockUI();
+                console.log(errorThrown);
+                ajaxError(statusCode, errorThrown);
+            });
+
+            $("#ModalMantProfesion").modal('hide');
+
+        }
+    })
+
+
 
 
 });

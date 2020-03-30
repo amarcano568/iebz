@@ -25,7 +25,11 @@ $(document).on('ready', function() {
             console.log(response)
             $.unblockUI();
             $("#organigrama").html(response.data);
-
+            $('[data-toggle="tooltip"]').tooltip({
+                animated: 'fade',
+                placement: 'bottom',
+                html: true
+            });
         }).fail(function(statusCode, errorThrown) {
             $.unblockUI();
             console.log(errorThrown);
@@ -205,6 +209,7 @@ $(document).on('ready', function() {
         event.preventDefault();
         idMiembro = $(this).attr('idMiembro');
         idMinisterio = $(this).attr('idMinisterio');
+        nivel = $(this).attr('nivel');
 
         alertify.confirm('Ministerios', '<h5 class="text-danger">Esta seguro de Excluir este Miembro ?</h5>', function() {
             $.ajax({
@@ -212,7 +217,8 @@ $(document).on('ready', function() {
                 type: 'get',
                 data: {
                     idMiembro: idMiembro,
-                    idMinisterio: idMinisterio
+                    idMinisterio: idMinisterio,
+                    nivel: nivel
                 },
                 beforeSend: function() {
                     loadingUI('por favor espere, excluyendo al miembro del ministerio.');
@@ -258,7 +264,7 @@ $(document).on('ready', function() {
 
             case 'agregarMiembro': // Edita Usuario
 
-                agregarMiembro(idMinisterio, Nombre);
+                agregarMiembro(idMinisterio, Nombre,'1');
                 break;
 
             case 'editarMinisterio':
@@ -276,7 +282,7 @@ $(document).on('ready', function() {
                     alert(statusCode + ' ' + errorThrown);
                 }).done(function(response) {
                     console.log(response)
-
+                    $("#nivelNuevoMinisterio").val('1');
                     $("#idMinisterioAgregar").val(idMinisterio);
                     $("#nombreMinisterio").val(response.data.nombre);
                     $("#statusMinisterio").val(response.data.status);
@@ -312,25 +318,26 @@ $(document).on('ready', function() {
                 })
                 break;
 
-
         }
     });
 
-    function agregarMiembro(idMinisterio, Nombre) {
+    function agregarMiembro(idMinisterio, Nombre, nivel) {
         $.ajax({
             url: 'agregar-miembro-ministerio',
             type: 'get',
             datatype: 'json',
             data: {
                 _token: "{{ csrf_token() }}",
-                idMinisterio: idMinisterio
+                idMinisterio: idMinisterio,
+                nivel: nivel
             }
         }).fail(function(statusCode, errorThrown) {
-            alert(statusCode + ' ' + errorThrown);
+            alert(statusCode + ' aqui ' + errorThrown);
         }).done(function(response) {
             console.log(response)
 
             $("#idMinisterio").val(idMinisterio);
+            $("#nivel").val(nivel);
 
             $('#tituloModal').text(Nombre);
             $('#fotoMiembro').html('<img src="images/user.png" alt="Foto Miembro" width="100px" height="125px" class="img-thumbnail center">');
@@ -380,6 +387,7 @@ $(document).on('ready', function() {
         nombreMiembro = $("#miembrosIncluir option:selected").text();
 
         idMinisterio = $("#idMinisterio").val();
+        nivel = $("#nivel").val();
         ministerio = $("#tituloModal").text();
         if (idMiembro == '') {
             alertify.set('notifier', 'position', 'top-center');
@@ -394,7 +402,8 @@ $(document).on('ready', function() {
                 type: 'get',
                 data: {
                     idMiembro: idMiembro,
-                    idMinisterio: idMinisterio
+                    idMinisterio: idMinisterio,
+                    nivel: nivel
                 },
                 beforeSend: function() {
                     loadingUI('Incluyendo al Miembro <strong>' + nombreMiembro + '</strong> al Ministerio de <strong>' + ministerio + '</strong>');
@@ -521,13 +530,18 @@ $(document).on('ready', function() {
         $('#FormMinisterio').each(function() {
             this.reset();
         });
+        nivel = $(this).attr('nivel');
+        idMinisterio = $(this).attr('idMinisterio');
         $('#ModalMinisterio').modal('show');
-        $("#tituloModalMinisterio").text('Crear un nuevo Ministerio')
+        $("#tituloModalMinisterio").text('Crear un nuevo Ministerio');
+        $("#nivelNuevoMinisterio").val(nivel);
+        $("#idNuevoMinisterio").val(idMinisterio);
     });
 
     $(document).on('click', '.borrarMinisterio', function(event) {
         event.preventDefault();
         idMinisterio = $(this).attr('idMinisterio');
+        nivel = $(this).attr('nivel');
         Nombre = $(this).attr('Nombre');
         alertify.confirm('<i class="fa-2x text-danger far fa-trash-alt"></i> Ministerio', '<h5 class="float-center text-danger">Esta seguro de Borrar el Ministerio de <strong class="text-danger"> ' + Nombre + '</strong>  ?</h5>', function() {
 
@@ -536,6 +550,7 @@ $(document).on('ready', function() {
                 type: 'get',
                 data: {
                     idMinisterio: idMinisterio,
+                    nivel: nivel,
                     _token: "{{ csrf_token() }}"
                 },
                 beforeSend: function() {
@@ -585,7 +600,8 @@ $(document).on('ready', function() {
         event.preventDefault();
         idMinisterio = $(this).attr('idMinisterio');
         Nombre = $(this).attr('Nombre');
-        agregarMiembro(idMinisterio, Nombre)
+        nivel = $(this).attr('nivel');
+        agregarMiembro(idMinisterio, Nombre, nivel);
     });
 
 

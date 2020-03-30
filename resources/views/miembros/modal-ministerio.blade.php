@@ -10,6 +10,8 @@
         <div class="modal-body" >
           <div class="x_content" >
             <input type="text" name="idMinisterioAgregar" id="idMinisterioAgregar" style="display: none;">
+            <input type="text" name="nivelNuevoMinisterio" id="nivelNuevoMinisterio" style="display: none;">
+            <input type="text" name="idNuevoMinisterio" id="idNuevoMinisterio" style="display: none;">
             <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-6 col-xs-6">
                 <div class="form-label-group">

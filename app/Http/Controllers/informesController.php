@@ -14,6 +14,7 @@ use \Profesiones;
 use \Status;
 use \Usuarios;
 use Uuid;
+use \SubMinisterios;
 use PDF;
 use Illuminate\Http\Request;
 use App\Traits\funcGral;
@@ -125,6 +126,99 @@ class informesController extends Controller
 
 
     public function listarInformeMinisterios(Request $request)
+    {
+
+        if ($request->idMinisterio == '*'){
+            $ministerios = \App\Ministerios::get();
+        }else{
+            $ministerios = \App\Ministerios::where('id',$request->idMinisterio)->get();
+        }
+        
+
+        $salida = '<table style="100%" class="table table-striped table-bordered>">
+                    <tbody>';
+        foreach ($ministerios as $ministerio) {
+            $miembros = $ministerio->miembros;
+            $status = $ministerio->status == 1 ? 'ACTIVO' : 'INACTIVO';
+            $lista = substr(str_replace(';', ",", $miembros), 0, -1);
+            $listaMiembros = \App\Miembros::select('id','nombre','apellido1','apellido2','telefonoFijo','telefonoMovil','email')->whereIn('id',explode(',', $lista))->get();
+
+            $salida .= '<tr bgcolor="#AAB7B8">
+                            <td colspan="5" style="text-align: center;"> MINISTERIO DE '.strtoupper($ministerio->nombre).'</td>
+                        </tr>';
+            
+            foreach ($listaMiembros as $miembro) {
+                $salida .= '<tr>
+                                <td colspan="2" >'.$miembro->nombre.' '.$miembro->apellido1.' '.$miembro->apellido2.'</td>
+                                <td>'.$miembro->telefonoFijo.'</td>
+                                <td>'.$miembro->telefonoMovil.'</td>
+                                <td>'.$miembro->email.'</td>
+                            </tr>';
+            }
+
+            $salida .= $this->subMinisterios($ministerio->id);
+            
+        }
+
+        $salida .= '</tbody></table>';
+
+        $data = array(
+                        'salida' => $salida,
+                        'nombreMinisterio' => strtoupper($request->nombreMinisterio)
+                    );
+
+        $rand = rand(0,1000);
+        $pdf = PDF::loadView('miembros.pdf-listado-ministerios',$data)->save(base_path()."\public\pdf\\informe-ministerios".$rand.".pdf");  
+        return "pdf/informe-ministerios".$rand.'.pdf';
+
+    }
+
+
+    public function subMinisterios($idMinisterio)
+    {
+        $subMinisterios = \App\SubMinisterios::where('idMinisterio',$idMinisterio)->get();
+
+        $salida = '';
+
+        if ($subMinisterios->count() > 0){
+            foreach ($subMinisterios as $subMinisterio) {
+                $status = $subMinisterio->status == 1 ? '<br><span class="badge badge-pill badge-success">&nbsp;Activo&nbsp;</span>' : '<br><span class="badge badge-pill badge-danger">&nbsp;Inactivo&nbsp;</span>';
+                $total = count(explode(';',$subMinisterio->miembros))-1;
+                $salida .= '<tr><td colspan="5">
+                                    <span class="text-info">
+                                        <strong>
+                                            '.strtoupper($subMinisterio->nombre).'
+                                        </strong>
+                                    </span>
+                            </td></tr>'.$this->miembrosMinisterio($subMinisterio->miembros,$subMinisterio->id,2);;
+            }
+
+            return $salida;
+        }
+
+        return '';
+    }
+
+    public function miembrosMinisterio($miembros,$idMinisterio,$nivel)
+    {
+        $lista = substr(str_replace(';', ",", $miembros), 0, -1);
+        $listaMiembros = \App\Miembros::select('id','nombre','apellido1','apellido2','telefonoFijo','telefonoMovil','email')->whereIn('id',explode(',', $lista))->get();
+        $salida = '';    
+        foreach ($listaMiembros as $miembro) {
+            $salida .= '<tr>
+                                <td colspan="2" >'.$miembro->nombre.' '.$miembro->apellido1.' '.$miembro->apellido2.'</td>
+                                <td>'.$miembro->telefonoFijo.'</td>
+                                <td>'.$miembro->telefonoMovil.'</td>
+                                <td>'.$miembro->email.'</td>
+                            </tr>';
+
+
+        }
+
+        return $salida;
+    }
+
+    public function listarInformeMinisterios2(Request $request)
     {
 
         if ($request->idMinisterio == '*'){

@@ -2,10 +2,9 @@
 <html>
     <head>
         <title></title>
-        <!-- <link href="{{ asset('css/bootstrap4.css') }}" rel="stylesheet" /> -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+        <link href="{{ asset('css/bootstrap-3-simple.min.css') }}" rel="stylesheet" />
         <style>
         /** Define the margins of your page **/
         @page {
@@ -16,11 +15,10 @@
         top: -80px;
         left: 0px;
         right: 0px;
-        height: 50px;
+        height: 40px;
         /** Extra personal styles **/
         color: black;
         text-align: center;
-        line-height: 35px;
         }
         footer {
         position: fixed;
@@ -34,21 +32,15 @@
         text-align: center;
         line-height: 35px;
         }
-        .alto{
-        max-height: 2em !important;
-        height: 2em !important;
-        }
-        .ancho{
-        max-width: : 20px !important;
-        width: : 20px !important;
-        }
+ 
         </style>
+       
     </head>
     <body>
         <header>
             <img src="img/logo.png" alt="" width="15%" height="75%">
             <br>
-            <span class="text-center">Listado de Ministerios ( {{ $nombreMinisterio }} )</span>
+            <span  class="text-center">INFORME DE MINISTERIOS ( {{ $nombreMinisterio }} )</span>
             <hr>
         </header>
         <br>

@@ -54,7 +54,7 @@
                         <div class="profile clearfix">
                             <div class="profile_pic">
                                 @if( Auth::user()->photo == '' )
-                                    <img src="{{ asset('img/user-icon.png') }}" alt="..." class="img-circle profile_img">                                    
+                                    <img src="{{ asset('images/user.png') }}" alt="..." class="img-circle profile_img">                                    
                                 @else
                                     <img class="img-circle profile_img" src='img/fotos/{{ Auth::user()->photo }}' >
                                 @endif

@@ -1,5 +1,5 @@
 <div id="divTableUsuarios" class="x_content">
-    <button type="button" class="btnAgregarMinisterio btn btn-round btn-success" style="float: right;">Agregar nuevo Ministerio</button>
+    <button type="button" nivel="1" class="btnAgregarMinisterio btn btn-round btn-success" style="float: right;">Agregar nuevo Ministerio</button>
 <table id="tableMinisterios" class="table table-striped table-bordered" style="width:100%;font-size: 14px;">
 <thead>
     <tr>

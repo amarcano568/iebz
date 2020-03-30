@@ -65,7 +65,14 @@ class miembrosController extends Controller
 
         foreach($miembros as $miembro)
         {
-            
+            if ( $miembro->foto == '' ){
+                $foto = '/images/user.png';
+            }else if( file_exists('img/fotos/'.$miembro->foto) ){
+                $foto = '/img/fotos/'.$miembro->foto;
+            }else{
+                $foto = '/images/user.png';
+            }
+
             $dataSet['aaData'][] = array(  $miembro->id,
                                            $miembro->nombreCorto,
                                            $miembro->nombre,
@@ -73,7 +80,6 @@ class miembrosController extends Controller
                                            $miembro->apellido2,
                                            $miembro->edad,
                                            $miembro->telefonoMovil,
-                                           $miembro->rol,
                                            $miembro->statusNombre,                                           
                                            $this->detalleMiembro($miembro),
                                            '<div class="icono-action">
@@ -81,10 +87,10 @@ class miembrosController extends Controller
                                                     <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar miembro (<strong>'.$miembro->nombre.'</strong>)." class="icono-action text-primary far fa-edit">
                                                     </i>
                                                 </a>
-                                                <a href="" data-accion="bloquearmiembro" idmiembro="'.$miembro->id.'" status="'.$miembro->status.'">
-                                                    
+                                                <a href="" data-accion="eliminarMiembro" idMiembro="'.$miembro->id.'" status="'.$miembro->status.'" nombreMiembro="'.$miembro->nombre.' '.
+                                           $miembro->apellido1.' '.$miembro->apellido2.'" foto="'.$foto.'">
+                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Eliminar Ficha miembro (<strong>'.$miembro->nombre.'</strong>)." class="text-danger far fa-trash-alt"></i>
                                                 </a>
-
                                             </div>'
                                         );
         }
@@ -650,8 +656,7 @@ class miembrosController extends Controller
         }
         
         return response()->json( array('success' => true, 'mensaje'=> 'Foto eliminada exitosamente','data' => $miniaturasAdjuntas) );
-
-        
+     
     }
     
     public function agregarFamiliarExistente(Request $request)
@@ -804,6 +809,60 @@ class miembrosController extends Controller
         $miembro = \App\Miembros::find($idMiembro);
         $miembro->sexo = substr($genero, 0,1);
         $miembro->save();
+    }
+
+
+    /**
+     *      Eliminar Miembro
+     */
+    public function eliminarMiembro(Request $request)
+    {
+
+        try {
+
+            DB::beginTransaction();   
+            
+            \App\Miembros::destroy($request->idMiembro);
+            $ruta     = '/documentos/miembro-'.$request->idMiembro;
+            $path     = public_path().$ruta;
+            if (file_exists($path)) {
+                 File::deleteDirectory($path);
+            }
+
+            $deletedRows = \App\FileStore::where('idMiembro', $request->idMiembro)->delete();
+
+            $ministerios = \App\Ministerios::get();
+            foreach ($ministerios as $ministerioFind) {
+                $ministerio = \App\Ministerios::find($ministerioFind->id);
+                $miembros = $ministerio->miembros;
+                $newMiembros = str_replace($request->idMiembro.';', "", $miembros);
+                $ministerio->miembros = $newMiembros;
+                $ministerio->save();
+            }
+            
+            $subMinisterios = \App\SubMinisterios::get();
+            foreach ($subMinisterios as $ministerioFind) {
+                $subMinisterio = \App\SubMinisterios::find($ministerioFind->id);
+                $miembros = $subMinisterio->miembros;
+                $newMiembros = str_replace($request->idMiembro.';', "", $miembros);
+                $subMinisterio->miembros = $newMiembros;
+                $subMinisterio->save();
+            }
+        
+            DB::commit();
+
+            return response()->json( array( 'success' => true, 
+                                            'mensaje'=> 'Miembro borrado exitosamente',
+                                        ) );
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return response()->json( array( 'success' => false, 
+                                            'mensaje'=> 'Hubo un error intentando borrar la Ficha del Membro.',
+                                        ) );
+        }
+
+
     }
 
 

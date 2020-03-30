@@ -13,7 +13,7 @@
   
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab">
+  <div class="tab-pane fade active show" id="home" role="tabpanel" aria-labelledby="home-tab" style="width: 100%">
     @include('miembros.organigrama-ministerios')
   </div>
   <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">

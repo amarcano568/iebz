@@ -7,6 +7,7 @@
       </div>
       <div class="modal-body" >
         <div class="x_content" >
+          <input type="text" name="nivel" id="nivel" style="display: none;">
           <input type="text" name="idMinisterio" id="idMinisterio" style="display: none;">
           <div class="row">
             <select class="chosen-select" id="miembrosIncluir" name="miembrosIncluir" data-placeholder="Seleccione un Miembro..." required="">
