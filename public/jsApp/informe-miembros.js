@@ -9,7 +9,6 @@ $(document).on('ready', function() {
 
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
 
-
     $(".chosen-select").chosen(ConfigChosen());
 
     informeMiembros();
@@ -22,18 +21,24 @@ $(document).on('ready', function() {
         informeMiembros();
     });
 
+    $(document).on('change', '#ordenado', function(event) {
+        informeMiembros();
+    });
+
 
 
     function informeMiembros() {
         idIglesia = $("#idIglesia").val();
         status = $("#status").val();
+        ordenado = $("#ordenado").val();
     
         $.ajax({
             url: 'listado-miembros',
             type: 'get',
             data: {
                 idIglesia: idIglesia,
-                status: status
+                status: status,
+                ordenado: ordenado
             },
             beforeSend: function() {
                 loadingUI('Generando Informe de Miembros');

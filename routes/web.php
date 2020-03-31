@@ -33,7 +33,8 @@ Route::group(['middleware' => 'auth'], function (){
 	 *   			Miembros
 	 */
 	Route::get('miembros', 'miembrosController@loadMiembros')->name('miembros')->middleware('permission:miembros');
-	Route::get('listar-miembros', 'miembrosController@listarMiembros')->name('listar-miembros')->middleware('permission:listar-miembros');
+	Route::get('listar-miembros', 'miembrosController@listarMiembros');
+	//Route::get('listar-miembros', 'miembrosController@listarMiembros')->name('listar-miembros')->middleware('permission:listar-miembros');
 	Route::get('get-provincias', 'miembrosController@listarProvincias');
 	Route::get('calcular-fecha-nacimiento', 'miembrosController@calcularFechaNacimiento');
 	Route::get('editar-miembro', 'miembrosController@editarMiembro');
@@ -48,42 +49,44 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('eliminar-miembro', 'miembrosController@eliminarMiembro');
 	
 	
+	/**
+	 *  		Mantenimiento
+	 */
 	Route::get('mantUsuarios', 'mantenimientoController@loadUsuarios')->name('mantUsuarios')->middleware('permission:mantUsuarios');
 	Route::get('carga-Usuarios', 'mantenimientoController@cargaUsuarios');
 	Route::post('subir-foto-perfil', 'miembrosController@subirFotoPerfil');
 	Route::get('buscar-imagen-usuario', 'mantenimientoController@buscarImagenUsuario');
-	Route::get('profesiones', 'mantenimientoController@Profesiones');
+	Route::get('profesiones', 'mantenimientoController@Profesiones')->name('profesiones')->middleware('permission:profesiones');
 	Route::get('listar-profesiones', 'mantenimientoController@listarProfesiones');
 	Route::get('actualizar-status-profesion', 'mantenimientoController@actualizarStatusProfesion');
 	Route::get('editar-profesion', 'mantenimientoController@editarProfesion');
 	Route::post('registrar-profesion', 'mantenimientoController@registrarProfesion');
 	Route::post('registrar-profesion-miembros', 'mantenimientoController@registrarProfesionMiembros');
-
-
-	Route::get('paises', 'mantenimientoController@paises');
+	Route::get('paises', 'mantenimientoController@paises')->name('paises')->middleware('permission:paises');
 	Route::get('listar-paises', 'mantenimientoController@listarPaises');
 	Route::get('actualizar-status-pais', 'mantenimientoController@actualizarStatusPais');
 	Route::get('editar-pais', 'mantenimientoController@editarPais');
 	Route::post('registrar-pais', 'mantenimientoController@registrarPais');
 
-	
-
 
 	/**
 	 * Informes
 	 */
-	Route::get('report-cumpleanos', 'informesController@reportCumpleanos');
+	Route::get('report-cumpleanos', 'informesController@reportCumpleanos')->name('report-cumpleanos')->middleware('permission:report-cumpleanos');
 	Route::get('listar-cumpleanos', 'informesController@listarCumpleanos');
-	Route::get('report-rango-edades', 'informesController@reportRangoEdades');
+	Route::get('report-rango-edades', 'informesController@reportRangoEdades')->name('report-rango-edades')->middleware('permission:report-rango-edades');
 	Route::get('listar-rango-edad', 'informesController@listarRangoEdad');
-	Route::get('informe-miembros', 'informesController@informeMiembros');
+	Route::get('informe-miembros', 'informesController@informeMiembros')->name('informe-miembros')->middleware('permission:informe-miembros');
 	Route::get('listado-miembros', 'informesController@listarMiembros');
+	Route::get('informe-ministerios', 'ministeriosController@informeMinisterios')->name('informe-ministerios')->middleware('permission:informe-ministerios');
+	Route::get('listar-informe-ministerios', 'informesController@listarInformeMinisterios');
 
 
 	/**
 	 * 					Ministerios
 	 */
-	Route::get('ministerios', 'ministeriosController@Ministerios');
+	//Route::get('ministerios', 'ministeriosController@Ministerios');
+	Route::get('ministerios', 'ministeriosController@Ministerios')->name('ministerios')->middleware('permission:ministerios');
 	Route::get('listar-ministerios', 'ministeriosController@listarMinisterios');
 	Route::get('excluir-miembro', 'ministeriosController@excluirMiembro');
 	Route::get('agregar-miembro-ministerio', 'ministeriosController@agregarMiembroMinisterio');
@@ -101,7 +104,8 @@ Route::group(['middleware' => 'auth'], function (){
 	/**
 	 * Relacionar Generos
 	 */
-	Route::get('relacionar-generos', 'miembrosController@relacionarGeneros');
+	//Route::get('relacionar-generos', 'miembrosController@relacionarGeneros');
+	Route::get('relacionar-generos', 'miembrosController@relacionarGeneros')->name('relacionar-generos')->middleware('permission:relacionar-generos');
 	Route::get('listar-miembros-generos', 'miembrosController@listarMiembrosGeneros');
 	Route::get('asignar-genero', 'miembrosController@asignarGenero');
 
@@ -125,9 +129,6 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('buscar_usuario', 'mantenimientoController@buscarUsuario');
 	Route::get('verifica-licencia', 'mantenimientoController@verificaLicencia');
 	Route::get('bloquear_usuario', 'mantenimientoController@bloquearUsuario');
-	Route::get('interactua-cayro', 'mantenimientoController@interactuaCayro');
-	//se agrego para obtener sub_areas
-	Route::get('get-sub-area-usuarios', 'mantenimientoController@getSubAreas');
 	
 	/**
 	 *   Empresa

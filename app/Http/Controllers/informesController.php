@@ -113,10 +113,12 @@ class informesController extends Controller
     public function listarMiembros(Request $request)
     {
  
-        $miembros = \App\Miembros::join('profesiones','miembros.profesion','=','profesiones.id')->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento','miembros.tipoDocumento', 'miembros.nroDocumento', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email',DB::raw('CASE WHEN miembros.sexo = "M" THEN "Masculino" WHEN miembros.sexo = "F" THEN "Femenino" ELSE "" END AS sexo'),'profesiones.nombre AS profesion')->get();
+        $orden = $request->ordenado == 1 ? 'nombre' : 'apellido1';
+        $miembros = \App\Miembros::join('profesiones','miembros.profesion','=','profesiones.id')->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento','miembros.tipoDocumento', 'miembros.nroDocumento', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email',DB::raw('CASE WHEN miembros.sexo = "M" THEN "Masculino" WHEN miembros.sexo = "F" THEN "Femenino" ELSE "" END AS sexo'),'profesiones.nombre AS profesion')->orderBy($orden, 'ASC')->get();
    
         $data = array(
-                        'miembros' => $miembros
+                        'miembros' => $miembros,
+                        'orden' => $request->ordenado
                     );     
 
         $rand = rand(0,1000);

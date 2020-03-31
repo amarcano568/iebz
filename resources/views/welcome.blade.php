@@ -95,7 +95,7 @@
                                         </a>
                                     </li>
                                     @endcan
-                                    @can('generos')
+                                    @can('relacionar-generos')
                                     <li>
                                         <a href="{{URL::to('relacionar-generos')}}">  
                                             <i style="font-size: 20px;" class="fas fa-venus-mars"></i>
@@ -110,25 +110,25 @@
                                                 <i style="font-size: 20px;" class="fas fa-print"></i>  Informes&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span class="fas fa-chevron-down"></span>
                                             </a>
                                             <ul class="nav child_menu">
-                                                @can('report-ticket-enviados')
+                                                @can('informe-miembros')
                                                 <li>
                                                     <a href="{{URL::to('informe-miembros')}}">Miembros
                                                     </a>
                                                 </li>
                                                 @endcan
-                                                @can('report-ticket-enviados')
+                                                @can('informe-ministerios')
                                                 <li>
                                                     <a href="{{URL::to('informe-ministerios')}}">Ministerios
                                                     </a>
                                                 </li>
                                                 @endcan
-                                                @can('report-ticket-enviados')
+                                                @can('report-cumpleanos')
                                                 <li>
                                                     <a href="{{URL::to('report-cumpleanos')}}">Cumpleaños
                                                     </a>
                                                 </li>
                                                 @endcan
-                                                @can('report-ticket-enviados')
+                                                @can('report-rango-edades')
                                                 <li>
                                                     <a href="{{URL::to('report-rango-edades')}}">Edades
                                                     </a>
@@ -150,7 +150,7 @@
                                             </li>
                                             @endcan
 
-                                            @can('config-correo')
+                                            @can('roles')
                                             <li>
                                                 <a href="{{URL::to('roles')}}">
                                                     Mantenimiento de Roles 

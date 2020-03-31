@@ -2,10 +2,9 @@
 <html>
     <head>
         <title></title>
-        <!-- <link href="{{ asset('css/bootstrap4.css') }}" rel="stylesheet" /> -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <style>
         /** Define the margins of your page **/
         @page {
@@ -46,12 +45,16 @@
     <body>
         <header>
             <img src="img/logo.png" alt="" width="15%" height="50%" style="float: left;">
-            <span style="text-align: center;" class="text-center">Listado de Miembros </span>
+            <span style="text-align: center;" class="text-center">INFORME DE MIEMBROS </span>
             <hr>
             <table  style="font-size: 10px;">
                 <tr >
                     <td class="alto" style="width: 20%">
-                        NOMBRE Y APELLIDOS
+                        @if ($orden == 1)
+                            NOMBRE Y APELLIDOS
+                        @else
+                            APELLIDOS Y NOMBRES
+                        @endif
                     </td>
                     <td>&nbsp;</td>
                     <td class="alto">
@@ -89,7 +92,11 @@
                 @foreach( $miembros as $miembro )
                 <tr >
                     <td class="alto">
-                        {{ $miembro->nombre}} {{ $miembro->apellido1 }} {{ $miembro->apellido2}}
+                        @if ($orden == 1)
+                            {{ $miembro->nombre}} {{ $miembro->apellido1 }} {{ $miembro->apellido2}}
+                        @else
+                            {{ $miembro->apellido1 }} {{ $miembro->apellido2}}, {{ $miembro->nombre}} 
+                        @endif
                     </td>
                     <td class="alto">
                         {{ $miembro->sexo }}
