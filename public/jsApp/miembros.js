@@ -18,6 +18,7 @@ $(document).on('ready', function() {
             "order": [
                 [1, "asc"]
             ],
+            responsive: true,
             dom: "<'row'<'col-sm-6'l><'col-sm-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -218,7 +219,7 @@ $(document).on('ready', function() {
 
         cadenaDeRetorno += '<div class="row" style="padding-top: 0;">';
         cadenaDeRetorno += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 0;">';
-        cadenaDeRetorno += filaDelDataSet[9];
+        cadenaDeRetorno += filaDelDataSet[8];
         cadenaDeRetorno += '</div>';
 
         return cadenaDeRetorno;
