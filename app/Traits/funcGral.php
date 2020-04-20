@@ -7,7 +7,7 @@ use \DB;
 trait funcGral {
  
     public function BaseDatosEmpresa() {
-		return Auth::user()->cayro == 1 ? Auth::user()->BaseDatosAux : Auth::user()->BaseDatos;
+		return Auth::user()->BaseDatos;
     }
 
     public function getNextID($table) 
