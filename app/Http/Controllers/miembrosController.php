@@ -534,13 +534,13 @@ class miembrosController extends Controller
             $ext = explode('.', $archi[$pos]);
             $created_at='';
             $nombreOriginal='';
-            $infoFile = \App\FileStore::where('idMiembro','=',$idMiembro)->where('nombreFile','=',$archi[$pos])->take(1)->get();
+            $infoFile = \App\FileStore::where('idMiembro','=',$idMiembro)->where('nombreFile','=',$archi[$pos])->first();
 
-            //dd($infoFile);
-            foreach ($infoFile as $info) {
-                $nombreOriginal = $info->nombreOriginal;
-                $created_at = $info->created_at;
-            }
+
+                $nombreOriginal = $infoFile->nombreOriginal;
+                $nombreFile = $infoFile->nombreFile;
+                $created_at = $infoFile->created_at;
+        
 
             $iconos = '<a href="'.$archivo.'" download="'.$archi[$pos].'"><i class="text-success fas fa-download"></i></a>';
             if (str_contains('PNG*JPG*JPEG*GIF*BMP*jpg', strtoupper($ext[1]))){
@@ -563,7 +563,7 @@ class miembrosController extends Controller
                 }
             }
 
-            $iconos .= '<a href="" class="clickDelete" nameDate="'.$created_at.'" nameShort="'.$nombreOriginal.'" nameFile="'.$archivo.'" archivo="'.$archivo.'"><i class="text-danger far fa-trash-alt"></i></a>';
+            $iconos .= '<a href="" class="clickDelete" nameDate="'.$created_at.'" nameShort="'.$nombreOriginal.'" nameFile="'.$nombreFile.'" archivo="'.$archivo.'"><i class="text-danger far fa-trash-alt"></i></a>';
 
             $created_at = \Carbon\Carbon::parse($created_at)->format('d/m/Y h:i A');
             $salida .= '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
