@@ -312,8 +312,8 @@ class miembrosController extends Controller
          * Documentos Adjuntos
          */
         $totAdjuntos = 0;
-        $ruta     = '/documentos/miembro-'.$request->idMiembro;
-        $path     = public_path().$ruta;
+        $ruta     = 'documentos/miembro-'.$request->idMiembro;
+        $path     = public_path().'/'.$ruta;
         $miniaturasAdjuntas = '<center><img src="img/documentos.png" height="100" width="100"><br><h3 class="text-center">No tiene Documentos Adjuntos...</h3></center>';
         if (file_exists($path)) {
             $files = File::files($path);            
@@ -616,8 +616,8 @@ class miembrosController extends Controller
         $fileStore->save();
 
         $totAdjuntos = 0;
-        $ruta     = '/documentos/miembro-'.$request->idMiembro;
-        $path     = public_path().$ruta;
+        $ruta     = 'documentos/miembro-'.$request->idMiembro;
+        $path     = public_path().'/'.$ruta;
         $miniaturasAdjuntas = '';
         if (file_exists($path)) {
             $files = File::files($path);            
@@ -646,8 +646,8 @@ class miembrosController extends Controller
         unlink($archivo);
 
         $totAdjuntos = 0;
-        $ruta     = '/documentos/miembro-'.$request->idMiembro;
-        $path     = public_path().$ruta;
+        $ruta     = 'documentos/miembro-'.$request->idMiembro;
+        $path     = public_path().'/'.$ruta;
         $miniaturasAdjuntas = '';
         if (file_exists($path)) {
             $files = File::files($path);            
