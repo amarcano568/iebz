@@ -606,7 +606,7 @@ class miembrosController extends Controller
         $myFile = date('mdYHis') . uniqid() . $request->fileName;
         rename($path.$fileName, $path.$myFile.'.'.$ext[1]);
         
-        DB::beginTransaction();   
+       // DB::beginTransaction();   
 
         $fileStore = new \App\FileStore;
         $fileStore->nombreOriginal = $fileName;
@@ -625,7 +625,7 @@ class miembrosController extends Controller
             $miniaturasAdjuntas = $this->archivosAdjuntos($files,$ruta,$request->idMiembro);
         }
 
-        DB::commit();
+       // DB::commit();
         //Storage::move($path.$fileName, $path.'usuario-'.$request->idSucursal);
         return response()->json( array('success' => true, 'mensaje'=> 'Foto cargada exitosamente','data' => $miniaturasAdjuntas) );
         
