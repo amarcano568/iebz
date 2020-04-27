@@ -4,7 +4,7 @@
         <title></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="{{ asset('css/bootstrap-3-simple.min.css') }}" rel="stylesheet" />
+        
 
         <style>
         /** Define the margins of your page **/
@@ -37,66 +37,80 @@
         max-height: 2em !important;
         height: 2em !important;
         }
-        .ancho{
-        max-width: : 20px !important;
-        width: : 20px !important;
+        .anchoNombre{
+            min-width: 200px !important;
+            width: 200px !important;
+        }
+        .anchoGenero{
+            min-width: 45px !important;
+            width: 45px !important;
+        }
+        .anchoFecNac{
+            min-width: 60px !important;
+            width: 60px !important;
+        }
+        .anchoEmail{
+            min-width: 160px !important;
+            width: 160px !important;
         }
         </style>
     </head>
     <body>
         <header>
             <img src="img/logo.png" alt="" width="15%" height="50%" style="float: left;">
-            <span style="text-align: center;" class="text-center">INFORME DE MIEMBROS </span>
+            <h5 style="text-align:center!important;">INFORME DE MIEMBROS </h5>
             <hr>
-            <div class="row" style="margin-top:-1.5em;">
-                <div class="col-xs-2 " >
+            <table style="font-size: 10px;font-weight: bold;">
+            <tr>
+                <td class="alto anchoNombre">
                     @if($orden == 1)
-                        <h1 style="font-size: 10px;" class="h6 text-left">NOMBRE Y APELLIDOS</h1>
+                        NOMBRE Y APELLIDOS
                     @else
-                        <h1 style="font-size: 10px;" class="h6 text-left">APELLIDOS Y NOMBRES</h1>
+                        APELLIDOS Y NOMBRES
                     @endif
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;margin-left:3em;" class="h6 text-left">GENERO</h1>
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;" class="h6 text-left">F. NAC.</h1>
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;margin-left:-5em;" class="h6 text-left">Nro. DOC.</h1>
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;margin-left:-6.5em;" class="h6 text-left">TEL. MOVIL</h1>
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;margin-left:-8.5em;" class="h6 text-left">EMAIL</h1>
-                </div>
-                <div class="col-xs-1 " >
-                    <h1 style="font-size: 10px;margin-left:-5em;" class="h6 text-left">PROFESION</h1>
-                </div>
-            </div>
-            <hr>
+                </td>
+                <td class="alto anchoGenero">
+                    GENERO
+                </td>
+                <td class="alto anchoFecNac">
+                    F. NAC.
+                </td>
+                <td class="alto">
+                    Nro. DOC.
+                </td>
+                <td class="alto">
+                    TEL. MOVIL
+                </td>
+                <td class="alto anchoEmail">
+                    EMAIL
+                </td>
+                <td class="alto">
+                    PROFESION
+                </td>
+            </tr>
+        </table>
+            <hr style="margin-top: 0">
         </header>
         <br>
-        <table>
+        <table class="">
              
             <tbody style="font-size: 10px;">
                 @foreach( $miembros as $miembro )
                 <tr >
-                    <td class="alto">
+                    <td nowrap class="alto">
                         @if ($orden == 1)
-                            {{ $miembro->nombre}} {{ $miembro->apellido1 }} {{ $miembro->apellido2}}
+                            {{ $miembro->Nombre }}
                         @else
-                            {{ $miembro->apellido1 }} {{ $miembro->apellido2}}, {{ $miembro->nombre}} 
+                            {{ $miembro->Apellido }} 
                         @endif
                     </td>
                     <td class="alto">
-                        {{ $miembro->sexo }}
+                        {{ trim($miembro->sexo) }}
                     </td>
                     <td class="alto">
                         {{ \Carbon\Carbon::parse($miembro->fecNacimiento)->format('d/m/Y')  }}
                     </td>
-                    <td class="alto">{{ $miembro->tipoDocumento }} {{ $miembro->nroDocumento }}</td>
+                    <td nowrap class="alto">{{ $miembro->tipoDocumento }} {{ $miembro->nroDocumento }}</td>
                     <td class="alto">
                         {{ $miembro->telefonoMovil }}
                     </td>
@@ -104,7 +118,9 @@
                         {{ $miembro->email }}
                     </td>
                     <td class="alto">
+                        @if(substr($miembro->profesion,0,10) != 'Seleccione')
                         {{ $miembro->profesion }}
+                        @endif
                     </td>
                 </tr>
                 @endforeach
