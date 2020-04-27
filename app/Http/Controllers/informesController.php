@@ -118,9 +118,10 @@ class informesController extends Controller
         $miembros->map(function($miembro){           
             $nombreOrdenadoNombre =  trim($miembro->nombre).' '.trim($miembro->apellido1).' '.trim($miembro->apellido2);
             $nombreOrdenadoApellido =   trim($miembro->apellido1) .' '.  trim($miembro->apellido2).', '.  trim($miembro->nombre);
-            $miembro->Nombre = $nombreOrdenadoNombre;
-            $miembro->Apellido = $nombreOrdenadoApellido;
+            $miembro->Nombre = str_pad(trim(substr($nombreOrdenadoNombre,0,30)),  30, " ");
+            $miembro->Apellido = str_pad(trim(substr($nombreOrdenadoApellido,0,30)),  30, " ");
         });
+
         $data = array(
                         'miembros' => $miembros,
                         'orden' => $request->ordenado
