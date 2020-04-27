@@ -16,6 +16,7 @@
           <div class="row">
               <select class="chosen-select" id="parentesco" name="parentesco" data-placeholder="Seleccione el Parentesco..." required="">
               <option></option>
+              <option value="Conyuge">Conyuge</option>
               <option value="Padre">Padre</option>
               <option value="Madre">Madre</option>
               <option value="Hijo(a)">Hijo(a)</option>

@@ -4,6 +4,7 @@
         <title></title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{{ asset('css/bootstrap-3-simple.min.css') }}" rel="stylesheet" />
 
         <style>
         /** Define the margins of your page **/
@@ -18,7 +19,7 @@
         height: 40px;
         /** Extra personal styles **/
         color: black;
-        text-align: center;
+
         }
         footer {
         position: fixed;
@@ -47,42 +48,33 @@
             <img src="img/logo.png" alt="" width="15%" height="50%" style="float: left;">
             <span style="text-align: center;" class="text-center">INFORME DE MIEMBROS </span>
             <hr>
-            <table  style="font-size: 10px;">
-                <tr >
-                    <td class="alto" style="width: 20%">
-                        @if ($orden == 1)
-                            NOMBRE Y APELLIDOS
-                        @else
-                            APELLIDOS Y NOMBRES
-                        @endif
-                    </td>
-                    <td>&nbsp;</td>
-                    <td class="alto">
-                        &nbsp;&nbsp;&nbsp;&nbsp;GENERO
-                    </td>
-                    <td class="alto">
-                        F. NACIMIENTO
-                    </td>
-                    <td class="alto">
-                        Nro. DOC.
-                    </td>
-                    <td class="alto">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEL. MOVIL
-                    </td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <td class="alto" style="width: 20%">
-                        EMAIL
-                    </td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td class="alto" style="width: 20%">
-                        PROFESION
-                    </td>
-                </tr>
-            </table>
+            <div class="row" style="margin-top:-1.5em;">
+                <div class="col-xs-2 " >
+                    @if($orden == 1)
+                        <h1 style="font-size: 10px;" class="h6 text-left">NOMBRE Y APELLIDOS</h1>
+                    @else
+                        <h1 style="font-size: 10px;" class="h6 text-left">APELLIDOS Y NOMBRES</h1>
+                    @endif
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;margin-left:3em;" class="h6 text-left">GENERO</h1>
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;" class="h6 text-left">F. NAC.</h1>
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;margin-left:-5em;" class="h6 text-left">Nro. DOC.</h1>
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;margin-left:-6.5em;" class="h6 text-left">TEL. MOVIL</h1>
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;margin-left:-8.5em;" class="h6 text-left">EMAIL</h1>
+                </div>
+                <div class="col-xs-1 " >
+                    <h1 style="font-size: 10px;margin-left:-5em;" class="h6 text-left">PROFESION</h1>
+                </div>
+            </div>
             <hr>
         </header>
         <br>
