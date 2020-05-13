@@ -313,7 +313,14 @@ class miembrosController extends Controller
 
     public function editarMiembro(Request $request)
     {
-        $miembro = \App\Miembros::join('iglesias','miembros.idIglesia','=','iglesias.id')->join('comunidades','miembros.comunidad','=','comunidades.id')->join('provincias','miembros.provincia','=','provincias.id')->join('paises','miembros.paisNacimiento','=','paises.id')->join('profesiones','miembros.profesion','=','profesiones.id')->join('status','miembros.status','=','status.id')->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.tipoDocumento','miembros.nroDocumento', 'miembros.direccion', 'miembros.codigoPostal', 'miembros.comunidad', 'miembros.provincia', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.fecNacimiento', 'miembros.lugarNacimiento', 'miembros.paisNacimiento', 'miembros.profesion', 'miembros.fecBautismo', 'miembros.iglesiaBautismo', 'miembros.fecCartaTraslado', 'miembros.iglesiaProcedencia', 'miembros.otrosDatos', 'miembros.foto', 'miembros.relacionFamilia', 'miembros.status', 'miembros.poblacion','iglesias.nombreCorto','comunidades.nombre AS comunidadNombre','provincias.nombre AS provinciaNombre','paises.nombre AS pais','profesiones.nombre AS profesionNombre','status.nombre AS statusNombre','miembros.sexo','miembros.parentesco')->find($request->idMiembro);
+        $miembro = \App\Miembros::join('iglesias','miembros.idIglesia','=','iglesias.id')
+        ->join('comunidades','miembros.comunidad','=','comunidades.id')
+        ->join('provincias','miembros.provincia','=','provincias.id')
+        ->join('paises','miembros.paisNacimiento','=','paises.id')
+        ->leftjoin('profesiones','miembros.profesion','=','profesiones.id')
+        ->join('status','miembros.status','=','status.id')
+        ->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.tipoDocumento','miembros.nroDocumento', 'miembros.direccion', 'miembros.codigoPostal', 'miembros.comunidad', 'miembros.provincia', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.fecNacimiento', 'miembros.lugarNacimiento', 'miembros.paisNacimiento', 'miembros.profesion', 'miembros.fecBautismo', 'miembros.iglesiaBautismo', 'miembros.fecCartaTraslado', 'miembros.iglesiaProcedencia', 'miembros.otrosDatos', 'miembros.foto', 'miembros.relacionFamilia', 'miembros.status', 'miembros.poblacion','iglesias.nombreCorto','comunidades.nombre AS comunidadNombre','provincias.nombre AS provinciaNombre','paises.nombre AS pais','profesiones.nombre AS profesionNombre','status.nombre AS statusNombre','miembros.sexo','miembros.parentesco')
+        ->find($request->idMiembro);
 
         /**
          * Documentos Adjuntos
