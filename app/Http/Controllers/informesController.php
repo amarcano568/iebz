@@ -45,13 +45,13 @@ class informesController extends Controller
 
         $pdf = PDF::loadView('miembros.pdf-listado-cumpleanos',$data);  
         $pdf->setPaper('A4', 'portrait');
-        
+        $rand = rand(0,1000);
         //echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
-        $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
+        $file_to_save = base_path()."\public\pdf\\listado-cumpleanos-".$rand.'.pdf';
         //save the pdf file on the server
         file_put_contents($file_to_save, $pdf->stream('invoice'));
 
-        return "\pdf\\ficha-".$request->idMiembro.'.pdf';
+        return "\pdf\\listado-cumpleanos-".$rand.'.pdf';
     }
 
     public function reportRangoEdades()
@@ -87,13 +87,15 @@ class informesController extends Controller
 
         $rand = rand(0,1000);
         //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
-        //$pdf->setPaper('A4', 'portrait');
-        //$file_to_save = base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-
-
+        // $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
+        // return "\pdf\\reporte-rango-edad".$rand.".pdf";
+        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data);  
+        $pdf->setPaper('A4', 'portrait');
+        $rand = rand(0,1000);
+        //echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
+        $file_to_save = base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
         //save the pdf file on the server
-        //file_put_contents($file_to_save, $pdf->stream('reporte'));
+        file_put_contents($file_to_save, $pdf->stream('rango-edad'));
 
         return "\pdf\\reporte-rango-edad".$rand.".pdf";
     }
