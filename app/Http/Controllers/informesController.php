@@ -46,12 +46,12 @@ class informesController extends Controller
         $pdf = PDF::loadView('miembros.pdf-listado-cumpleanos',$data);  
         $pdf->setPaper('A4', 'portrait');
         
-        echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
+        //echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         //save the pdf file on the server
         file_put_contents($file_to_save, $pdf->stream('invoice'));
 
-        return "pdf/ficha-".$request->idMiembro.'.pdf';
+        return "\pdf\\ficha-".$request->idMiembro.'.pdf';
     }
 
     public function reportRangoEdades()
@@ -95,7 +95,7 @@ class informesController extends Controller
         //save the pdf file on the server
         //file_put_contents($file_to_save, $pdf->stream('reporte'));
 
-        return base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
+        return "\pdf\\reporte-rango-edad".$rand.".pdf";
     }
 
     public function informeMiembros()
