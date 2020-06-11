@@ -45,6 +45,7 @@ class informesController extends Controller
 
         $pdf = PDF::loadView('miembros.pdf-listado-cumpleanos',$data);  
         $pdf->setPaper('A4', 'portrait');
+        echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         //save the pdf file on the server
         file_put_contents($file_to_save, $pdf->stream('invoice'));
