@@ -45,6 +45,7 @@ class informesController extends Controller
 
         $pdf = PDF::loadView('miembros.pdf-listado-cumpleanos',$data);  
         $pdf->setPaper('A4', 'portrait');
+        
         echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
         //save the pdf file on the server
@@ -85,6 +86,7 @@ class informesController extends Controller
                     );
 
         $rand = rand(0,1000);
+        echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
         $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
         //$pdf->setPaper('A4', 'portrait');
         //$file_to_save = base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
