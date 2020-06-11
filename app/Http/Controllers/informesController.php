@@ -95,7 +95,7 @@ class informesController extends Controller
         //save the pdf file on the server
         //file_put_contents($file_to_save, $pdf->stream('reporte'));
 
-        return base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
+        return "\public\pdf\\reporte-rango-edad".$rand.".pdf";
     }
 
     public function informeMiembros()
