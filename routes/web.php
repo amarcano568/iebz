@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use Illuminate\Http\Request;
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function (){
@@ -80,8 +80,10 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('listado-miembros', 'informesController@listarMiembros');
 	Route::get('informe-ministerios', 'ministeriosController@informeMinisterios')->name('informe-ministerios')->middleware('permission:informe-ministerios');
 	Route::get('listar-informe-ministerios', 'informesController@listarInformeMinisterios');
-
-
+	Route::get('delete-file-pdf', function (Request $request) {
+		unlink($request->fileDelete);
+	});
+	
 	/**
 	 * 					Ministerios
 	 */

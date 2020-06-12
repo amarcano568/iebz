@@ -1,11 +1,10 @@
-$(document).on('ready', function() {
-
+$(document).on("ready", function () {
     var server = "";
     var pathname = document.location.pathname;
     var pathnameArray = pathname.split("/public/");
-    var tituloimg = '';
-    var descripcionImg = '';
-    var objetoDataTables_Miembros = '';
+    var tituloimg = "";
+    var descripcionImg = "";
+    var objetoDataTables_Miembros = "";
 
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
 
@@ -16,7 +15,7 @@ $(document).on('ready', function() {
         max: 120,
         from: 10,
         to: 90,
-        type: 'double',
+        type: "double",
         step: 1,
         postfix: " Años",
         grid: true,
@@ -31,54 +30,54 @@ $(document).on('ready', function() {
         },
         onUpdate: function (data) {
             // fired on changing slider with Update method
-        }
+        },
     });
 
     $(".chosen-select").chosen(ConfigChosen());
 
     listarRangoEdad();
 
-    $(document).on('change', '#idIglesia', function(event) {
+    $(document).on("change", "#idIglesia", function (event) {
         listarRangoEdad();
     });
 
-    $(document).on('change', '#status', function(event) {
+    $(document).on("change", "#status", function (event) {
         listarRangoEdad();
     });
-
-
 
     function listarRangoEdad() {
         idIglesia = $("#idIglesia").val();
         status = $("#status").val();
-        rangeEdad = $( "#rangeEdad" ).val();
+        rangeEdad = $("#rangeEdad").val();
         nombreStatus = $("#status option:selected").text();
-    
+
         $.ajax({
-            url: 'listar-rango-edad',
-            type: 'get',
+            url: "listar-rango-edad",
+            type: "get",
             data: {
                 idIglesia: idIglesia,
                 status: status,
                 rangeEdad: rangeEdad,
-                nombreStatus: nombreStatus
+                nombreStatus: nombreStatus,
             },
-            beforeSend: function() {
-                loadingUI('Generando informe de Rango de Edades');
-            }
-        }).done(function(data) {
-            console.log(data)
-            $.unblockUI();
-            
-            $("#listado-de-rango-edad").html('<iframe id="ObjPdf" src="" width="100%" height="600" type="application/pdf"></iframe> ');
-            $('#ObjPdf').attr('src', data);
-        }).fail(function(statusCode, errorThrown) {
-            $.unblockUI();
-            console.log(errorThrown);
-            ajaxError(statusCode, errorThrown);
-        });
+            beforeSend: function () {
+                loadingUI("Generando informe de Rango de Edades");
+            },
+        })
+            .done(function (data) {
+                console.log(data);
+                $.unblockUI();
+
+                $("#listado-de-rango-edad").html(
+                    '<iframe id="ObjPdf" src="" width="100%" height="600" type="application/pdf"></iframe> '
+                );
+                $("#ObjPdf").attr("src", data);
+                deleteFile(data);
+            })
+            .fail(function (statusCode, errorThrown) {
+                $.unblockUI();
+                console.log(errorThrown);
+                ajaxError(statusCode, errorThrown);
+            });
     }
-
-
-
 });

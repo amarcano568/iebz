@@ -88,15 +88,14 @@ class informesController extends Controller
 
         $rand = rand(0,1000);
         //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
-        //$pdf->setPaper('A4', 'portrait');
-        //$file_to_save = base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-
-
-        //save the pdf file on the server
-        //file_put_contents($file_to_save, $pdf->stream('reporte'));
-
-        return "\pdf\\reporte-rango-edad".$rand.".pdf";
+        //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
+        //return "\pdf\\reporte-rango-edad".$rand.".pdf";
+        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data);  
+        $pdf->setPaper('A4', 'portrait');
+        $rand = rand(0,1000);
+        $file_to_save = "informe-rango-edad-".$rand.'.pdf';
+        file_put_contents($file_to_save, $pdf->stream('edad'));
+        return "informe-rango-edad-".$rand.'.pdf';
     }
 
     public function informeMiembros()
@@ -132,8 +131,14 @@ class informesController extends Controller
                     );     
 
         $rand = rand(0,1000);
-        $pdf = PDF::loadView('miembros.pdf-listado-miembros',$data)->save(base_path()."\public\pdf\\informe-miembros".$rand.".pdf");  
-        return "pdf/informe-miembros".$rand.'.pdf';
+        //$pdf = PDF::loadView('miembros.pdf-listado-miembros',$data)->save(base_path()."\public\pdf\\informe-miembros".$rand.".pdf");  
+        //return "pdf/informe-miembros".$rand.'.pdf';
+        $pdf = PDF::loadView('miembros.pdf-listado-miembros',$data);  
+        $pdf->setPaper('A4', 'portrait');
+        $rand = rand(0,1000);
+        $file_to_save = "informe-miembros-".$rand.'.pdf';
+        file_put_contents($file_to_save, $pdf->stream('miembros'));
+        return "informe-miembros-".$rand.'.pdf';
     }
 
 
@@ -180,8 +185,14 @@ class informesController extends Controller
                     );
 
         $rand = rand(0,1000);
-        $pdf = PDF::loadView('miembros.pdf-listado-ministerios',$data)->save(base_path()."\public\pdf\\informe-ministerios".$rand.".pdf");  
-        return "pdf/informe-ministerios".$rand.'.pdf';
+        // $pdf = PDF::loadView('miembros.pdf-listado-ministerios',$data)->save(base_path()."\public\pdf\\informe-ministerios".$rand.".pdf");  
+        // return "pdf/informe-ministerios".$rand.'.pdf';
+        $pdf = PDF::loadView('miembros.pdf-listado-ministerios',$data);  
+        $pdf->setPaper('A4', 'portrait');
+        $rand = rand(0,1000);
+        $file_to_save = "informe-ministerios-".$rand.'.pdf';
+        file_put_contents($file_to_save, $pdf->stream('ministerios'));
+        return "informe-ministerios-".$rand.'.pdf';
 
     }
 
