@@ -47,11 +47,12 @@ class informesController extends Controller
         $pdf->setPaper('A4', 'portrait');
         
         //echo  base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
-        $file_to_save = base_path()."\public\pdf\\ficha-".$request->idMiembro.'.pdf';
+        $rand = rand(0,1000);
+        $file_to_save = "\pdf\\informe-cumpleanos".$rand.'.pdf';
         //save the pdf file on the server
         file_put_contents($file_to_save, $pdf->stream('invoice'));
 
-        return "\pdf\\ficha-".$request->idMiembro.'.pdf';
+        return "\pdf\\informe-cumpleanos".$rand.'.pdf';
     }
 
     public function reportRangoEdades()
