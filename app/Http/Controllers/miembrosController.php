@@ -330,7 +330,9 @@ class miembrosController extends Controller
         $path     = public_path().'/'.$ruta;
         $miniaturasAdjuntas = '<center><img src="img/documentos.png" height="100" width="100"><br><h3 class="text-center">No tiene Documentos Adjuntos...</h3></center>';
         if (file_exists($path)) {
-            $files = File::files($path);            
+            
+            $files = File::files($path);   
+            //dd($files);         
             $totAdjuntos = count($files);
             $miniaturasAdjuntas = $this->archivosAdjuntos($files,$ruta,$request->idMiembro);
         }
@@ -549,7 +551,7 @@ class miembrosController extends Controller
             $created_at='';
             $nombreOriginal='';
             $infoFile = \App\FileStore::where('idMiembro','=',$idMiembro)->where('nombreFile','=',$archi[$pos])->first();
-
+           
 
                 $nombreOriginal = $infoFile->nombreOriginal;
                 $nombreFile = $infoFile->nombreFile;
@@ -655,7 +657,7 @@ class miembrosController extends Controller
         } 
         $pos = count($archi)-1;
 
-        $archivo = public_path().'\\documentos\miembro-'.$request->idMiembro.'\\'.$archi[$pos];
+        $archivo = '\documentos\miembro-'.$request->idMiembro.'\\'.$archi[$pos];
        
         unlink($archivo);
 
