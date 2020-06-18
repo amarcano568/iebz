@@ -57,7 +57,7 @@
     </head>
     <body>
         <header>
-            <img src="img/logo.png" alt="" width="15%" height="50%" style="float: left;">
+            <img src="img/logo.png" alt="" height="75%" style="float: left;">
             <h5 style="text-align:center!important;">INFORME DE MIEMBROS </h5>
             <hr>
             <table style="font-size: 10px;font-weight: bold;">
