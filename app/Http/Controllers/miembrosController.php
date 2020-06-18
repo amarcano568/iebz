@@ -657,7 +657,7 @@ class miembrosController extends Controller
         } 
         $pos = count($archi)-1;
 
-        $archivo = 'documentos\miembro-'.$request->idMiembro.'\\'.$archi[$pos];
+        $archivo = 'documentos/miembro-'.$request->idMiembro.'//'.$archi[$pos];
        
         unlink($archivo);
 
