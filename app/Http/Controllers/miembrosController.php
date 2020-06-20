@@ -22,6 +22,8 @@ use App\Traits\funcGral;
 use \DataTables;
 use App\Exports\MiembrosExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
 use Illuminate\Support\Facades\Storage;
 
 
@@ -147,7 +149,8 @@ class miembrosController extends Controller
 
     public function generarExcelMiembros() 
     {
-        Excel::store(new MiembrosExport, 'miembros.xlsx','public');
+        $header = ['Id', 'Nombre', 'Apellido1', 'Apellido2', 'Tipo Documento','Nro. Documento', 'Dirección', 'CP', 'Comunidad', 'Provincia', 'Telefono Fijo', 'Telefono Movil', 'Email', 'Fecha Nacimiento', 'Lugar Nacimiento', 'Pais de Nacimiento', 'Profesion', 'Fecha Bautismo', 'Iglesia Bautismo', 'Fecha Carta Traslado', 'Iglesia Procedencia', 'Otros Datos', 'Status', 'Poblacion','Status']; //headers
+        Excel::store(new MiembrosExport($header,'A6'), 'miembros.xlsx','public');
         return asset('storage/miembros.xlsx');
     }
 
