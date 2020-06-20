@@ -206,9 +206,7 @@ $(document).on("ready", function () {
                 var link = document.createElement("a");
                 link.href = result;
                 link.download = "miembros.xlsx";
-
                 document.body.appendChild(link);
-
                 link.click();
                 document.body.removeChild(link);
             })
