@@ -180,7 +180,7 @@ class ministeriosController extends Controller
             $ministerio = \App\Ministerios::find($request->idMinisterio);
             if ($ministerio->status == 1){
             	$miembros = $ministerio->miembros.$request->idMiembro.';';
-            	$ministerio->miembros = $miembros;
+            	$ministerio->miembros = $ministerio->miembros === null ? ';'.$miembros : $miembros;
             	$ministerio->save();
             	return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
             }else{
@@ -190,7 +190,7 @@ class ministeriosController extends Controller
             $subMinisterio = \App\SubMinisterios::find($request->idMinisterio);
             if ($subMinisterio->status == 1){
                 $miembros = $subMinisterio->miembros.$request->idMiembro.';';
-                $subMinisterio->miembros = $miembros;
+                $subMinisterio->miembros = $subMinisterio->miembros === null ? ';'.$miembros : $miembros;
                 $subMinisterio->save();
                 return response()->json( array('success' => true, 'mensaje'=> 'Ministerio actualizado correctamente') );
             }else{

@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('asignar-foto', 'miembrosController@asignarFoto');
 	Route::get('imprimir-ficha', 'miembrosController@imprimirFicha');
 	Route::get('eliminar-miembro', 'miembrosController@eliminarMiembro');
+	Route::get('generar-excel-miembros', 'miembrosController@generarExcelMiembros');
+
+	
 	
 	
 	/**

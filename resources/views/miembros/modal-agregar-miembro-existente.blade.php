@@ -20,6 +20,7 @@
               <option value="Padre">Padre</option>
               <option value="Madre">Madre</option>
               <option value="Hijo(a)">Hijo(a)</option>
+              <option value="Hermano(a)">Hermano(a)</option>
             </select>
           </div>
         </div>

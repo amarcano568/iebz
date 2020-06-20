@@ -14,10 +14,18 @@ use \Iglesias;
 use \Profesiones;
 use \Status;
 use \Usuarios;
+use \App\SubMinisterios;
 use Uuid;
 use PDF;
 use Illuminate\Http\Request;
 use App\Traits\funcGral;
+use \DataTables;
+use App\Exports\MiembrosExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+
+
+
 
 class miembrosController extends Controller
 {
@@ -62,50 +70,85 @@ class miembrosController extends Controller
             $edad = Carbon::parse($miembro->fecNacimiento)->age;
             $miembro->edad = $edad;
         });
-        
-        $dataSet = array (
-            "sEcho"                 =>  0,
-            "iTotalRecords"         =>  1,
-            "iTotalDisplayRecords"  =>  1,
-            "aaData"                =>  array () 
-        );
 
-        foreach($miembros as $miembro)
-        {
-            if ( $miembro->foto == '' ){
-                $foto = '/images/user.png';
-            }else if( file_exists('img/fotos/'.$miembro->foto) ){
-                $foto = '/img/fotos/'.$miembro->foto;
-            }else{
-                $foto = '/images/user.png';
-            }
+        return Datatables::of($miembros)
+                        ->setRowId('id')
+                        ->addIndexColumn()
+                        ->addColumn('detalle', function($row){
+	                            return $this->detalleMiembro($row);
+	                    })
+	                    ->addColumn('action', function($row){
+                                    if ( $row->foto == '' ){
+                                        $foto = '/images/user.png';
+                                    }else if( file_exists('img/fotos/'.$row->foto) ){
+                                        $foto = '/img/fotos/'.$row->foto;
+                                    }else{
+                                        $foto = '/images/user.png';
+                                    }
+                               $btn =  '<div class="icono-action">
+                                    <a href="" data-accion="editarMiembro" idMiembro="'.$row->id.'" >
+                                        <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar miembro (<strong>'.$row->nombre.'</strong>)." class="icono-action text-primary far fa-edit">
+                                        </i>
+                                    </a>
+                                    <a href="" data-accion="eliminarMiembro" idMiembro="'.$row->id.'" status="'.$row->status.'" nombreMiembro="'.$row->nombre.' '.
+                                            $row->apellido1.' '.$row->apellido2.'" foto="'.$foto.'">
+                                        <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Eliminar Ficha miembro (<strong>'.$row->nombre.'</strong>)." class="text-danger far fa-trash-alt"></i>
+                                    </a>
+                                </div>';
+	                            return $btn;
+                        })
+	                    ->rawColumns(['detalle','action'])
+                        ->make(true);
+                                
+        // $dataSet = array (
+        //     "sEcho"                 =>  0,
+        //     "iTotalRecords"         =>  1,
+        //     "iTotalDisplayRecords"  =>  1,
+        //     "aaData"                =>  array () 
+        // );
 
-            $dataSet['aaData'][] = array(  $miembro->id,
-                                           $miembro->nombreCorto,
-                                           $miembro->nombre,
-                                           $miembro->apellido1,
-                                           $miembro->apellido2,
-                                           $miembro->edad,
-                                           $miembro->telefonoMovil,
-                                           $miembro->statusNombre,                                           
-                                           $this->detalleMiembro($miembro),
-                                           '<div class="icono-action">
-                                                <a href="" data-accion="editarMiembro" idMiembro="'.$miembro->id.'" >
-                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar miembro (<strong>'.$miembro->nombre.'</strong>)." class="icono-action text-primary far fa-edit">
-                                                    </i>
-                                                </a>
-                                                <a href="" data-accion="eliminarMiembro" idMiembro="'.$miembro->id.'" status="'.$miembro->status.'" nombreMiembro="'.$miembro->nombre.' '.
-                                           $miembro->apellido1.' '.$miembro->apellido2.'" foto="'.$foto.'">
-                                                    <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Eliminar Ficha miembro (<strong>'.$miembro->nombre.'</strong>)." class="text-danger far fa-trash-alt"></i>
-                                                </a>
-                                            </div>'
-                                        );
-        }
+        // foreach($miembros as $miembro)
+        // {
+        //     if ( $miembro->foto == '' ){
+        //         $foto = '/images/user.png';
+        //     }else if( file_exists('img/fotos/'.$miembro->foto) ){
+        //         $foto = '/img/fotos/'.$miembro->foto;
+        //     }else{
+        //         $foto = '/images/user.png';
+        //     }
 
-        $salidaDeDataSet = json_encode ($dataSet, JSON_HEX_QUOT);
+        //     $dataSet['aaData'][] = array(  $miembro->id,
+        //                                    $miembro->nombreCorto,
+        //                                    $miembro->nombre,
+        //                                    $miembro->apellido1,
+        //                                    $miembro->apellido2,
+        //                                    $miembro->edad,
+        //                                    $miembro->telefonoMovil,
+        //                                    $miembro->statusNombre,                                           
+        //                                    $this->detalleMiembro($miembro),
+        //                                    '<div class="icono-action">
+        //                                         <a href="" data-accion="editarMiembro" idMiembro="'.$miembro->id.'" >
+        //                                             <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Editar miembro (<strong>'.$miembro->nombre.'</strong>)." class="icono-action text-primary far fa-edit">
+        //                                             </i>
+        //                                         </a>
+        //                                         <a href="" data-accion="eliminarMiembro" idMiembro="'.$miembro->id.'" status="'.$miembro->status.'" nombreMiembro="'.$miembro->nombre.' '.
+        //                                    $miembro->apellido1.' '.$miembro->apellido2.'" foto="'.$foto.'">
+        //                                             <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Eliminar Ficha miembro (<strong>'.$miembro->nombre.'</strong>)." class="text-danger far fa-trash-alt"></i>
+        //                                         </a>
+        //                                     </div>'
+        //                                 );
+        // }
+
+        // $salidaDeDataSet = json_encode ($dataSet, JSON_HEX_QUOT);
     
-        /* SE DEVUELVE LA SALIDA */
-        echo $salidaDeDataSet;
+        // /* SE DEVUELVE LA SALIDA */
+        // echo $salidaDeDataSet;
+    }
+
+    public function generarExcelMiembros() 
+    {
+        Excel::store(new MiembrosExport, 'miembros.xlsx','public');
+        return asset('storage/miembros.xlsx');
     }
 
 
@@ -367,7 +410,9 @@ class miembrosController extends Controller
         $salida = '';
         foreach ($ministerios as $ministerio) {
             $miembros = $ministerio->miembros;
-            $pos = strpos($miembros, (string)$idMiembro);
+            $idBusqueda = ';'.(string)$idMiembro.';';
+            
+            $pos = strpos($miembros, $idBusqueda);
             if ($pos !== false){
                 $salida .= '<li>
                                 <a>
@@ -380,11 +425,48 @@ class miembrosController extends Controller
                                 </a>
                             </li>';
             }
+
+            $salida .= $this->subMinisteriosDondeSirve($idMiembro,$ministerio->id);
         }
 
         if ($salida == ''){
             $salida = '<h4 class="text-info">No sirve en ningún Ministerio</h4>';
         }else{
+            $salida = '<ul class="list-unstyled msg_list">
+                            '.$salida.'
+                        </ul>';
+        }
+
+        return $salida;
+
+    }
+
+    public function subMinisteriosDondeSirve($idMiembro,$idMinisterio)
+    {
+   
+        $subministerios = SubMinisterios::where('idMinisterio',$idMinisterio)->get();
+        $salida = '';
+        foreach ($subministerios as $subministerio) {
+            //$miembros = $subministerios->miembros;
+            $idBusqueda = ';'.(string)$idMiembro.';';
+            
+            $pos = strpos($subministerio->miembros, $idBusqueda);
+            if ($pos !== false){
+                $salida .= '<li>
+                                <a>
+                                <span class="image">
+                                <i class="fa-2x fas fa-network-wired"></i>
+                                </span>
+                                <span>
+                                <span style="font-size: 18px;">'.$subministerio->nombre.'</span>
+                                </span>
+                                </a>
+                            </li>';
+            }
+
+        }
+
+        if ($salida != ''){
             $salida = '<ul class="list-unstyled msg_list">
                             '.$salida.'
                         </ul>';

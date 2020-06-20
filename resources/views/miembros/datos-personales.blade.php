@@ -112,7 +112,7 @@
                 <div class="container">
                   <div class="input-group my-group">
                     <select id="tipoDoc" name="tipoDoc" class="form-control" style="width: 2px">
-                      <option value="NIF">NIF</option>
+                      <option value="DNI">DNI</option>
                       <option value="NIE">NIE</option>
                       <option value="PAS">PAS</option>
                     </select>
