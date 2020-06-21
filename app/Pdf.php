@@ -9,6 +9,7 @@ class Pdf extends Fpdf
 {
     public function Header()
     {
+        $this->SetTextColor(0,0,0);
         $this->Image('img//logo.png',10,6,30);
         $this->SetFont('Arial','B',12);
         $this->Cell(80);
@@ -32,6 +33,7 @@ class Pdf extends Fpdf
 
     public function Footer()
     {
+        $this->SetTextColor(0,0,0);
         $this->SetY(-15);
         $this->SetFont('Arial','I',8);
         $this->Cell(0,10,\utf8_decode('Página ').$this->PageNo().'/{nb}',0,0,'C');

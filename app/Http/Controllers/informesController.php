@@ -145,7 +145,7 @@ class informesController extends Controller
             $this->pdf->SetFont('Times','',10);
             $this->pdf->Cell(65,10, $request->ordenado == 1 ? $miembro['Nombre'] : $miembro['Apellido']);
             $this->pdf->Cell(20,10,$miembro['sexo']);
-            $this->pdf->Cell(20,10,$miembro['fecNacimiento']);
+            $this->pdf->Cell(20,10,\Carbon\Carbon::parse($miembro['fecNacimiento'])->format('d/m/Y'));
             $this->pdf->Cell(20,10,$miembro['telefonoFijo']);
             $this->pdf->Cell(20,10,$miembro['telefonoMovil']);
             $this->pdf->Cell(20,10,strtolower($miembro['email']));
