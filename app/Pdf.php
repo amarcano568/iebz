@@ -27,6 +27,7 @@ class Pdf extends Fpdf
         $this->Cell(22,10,'F. NAC.',0,0,'C');
         $this->Cell(17,10,'T. MOVIL',0,0,'C');
         $this->Cell(17,10,'T. FIJO',0,0,'C');
+        $this->Cell(30,10,'EMAIL',0,0,'C');
         $this->Line( 5,  35,  200,  35);
         $this->Ln(10);
     }
