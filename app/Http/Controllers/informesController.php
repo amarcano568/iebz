@@ -18,10 +18,18 @@ use \SubMinisterios;
 use PDF;
 use Illuminate\Http\Request;
 use App\Traits\funcGral;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 
 class informesController extends Controller
 {
+    protected $pdf;
+
+    public function __construct(\App\Pdf $pdf)
+    {
+        $this->pdf = $pdf;
+    }
+
     public function reportCumpleanos()
     {
 
@@ -117,29 +125,71 @@ class informesController extends Controller
     {
  
         $orden = $request->ordenado == 1 ? 'nombre' : 'apellido1';
-        $miembros = \App\Miembros::join('profesiones','miembros.profesion','=','profesiones.id')->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento','miembros.tipoDocumento', 'miembros.nroDocumento', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email',DB::raw('CASE WHEN miembros.sexo = "M" THEN "Masculino" WHEN miembros.sexo = "F" THEN "Femenino" ELSE "" END AS sexo'),'profesiones.nombre AS profesion')->orderBy($orden, 'ASC')->get();
+        $miembros = \App\Miembros::join('profesiones','miembros.profesion','=','profesiones.id')
+        ->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])
+        ->select('miembros.id', 'miembros.idIglesia', 'miembros.direccion', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento','miembros.tipoDocumento', 'miembros.nroDocumento', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email',DB::raw('CASE WHEN miembros.sexo = "M" THEN "Masculino" WHEN miembros.sexo = "F" THEN "Femenino" ELSE "" END AS sexo'),'profesiones.nombre AS profesion')->orderBy($orden, 'ASC')->get();
         $miembros->map(function($miembro){           
             $nombreOrdenadoNombre =  trim($miembro->nombre).' '.trim($miembro->apellido1).' '.trim($miembro->apellido2);
             $nombreOrdenadoApellido =   trim($miembro->apellido1) .' '.  trim($miembro->apellido2).', '.  trim($miembro->nombre);
             $miembro->Nombre = str_pad(trim(substr($nombreOrdenadoNombre,0,30)),  30, " ");
             $miembro->Apellido = str_pad(trim(substr($nombreOrdenadoApellido,0,30)),  30, " ");
         });
-
-        $data = array(
-                        'miembros' => $miembros,
-                        'orden' => $request->ordenado
-                    );     
-
+        
         $rand = rand(0,1000);
-        //$pdf = PDF::loadView('miembros.pdf-listado-miembros',$data)->save(base_path()."\public\pdf\\informe-miembros".$rand.".pdf");  
-        //return "pdf/informe-miembros".$rand.'.pdf';
-        $pdf = PDF::loadView('miembros.pdf-listado-miembros',$data);  
-        $pdf->setPaper('A4', 'portrait');
-        $rand = rand(0,1000);
-        $file_to_save = "informe-miembros-".$rand.'.pdf';
-        file_put_contents($file_to_save, $pdf->stream('miembros'));
+        $this->pdf->AliasNbPages();
+        $this->pdf->AddPage();
+        
+        //$this->SetFont('Arial','B',12);
+        foreach ($miembros as $miembro){
+            $this->pdf->SetTextColor(0,0,0);
+            $this->pdf->SetFont('Times','',10);
+            $this->pdf->Cell(65,10, $request->ordenado == 1 ? $miembro['Nombre'] : $miembro['Apellido']);
+            $this->pdf->Cell(20,10,$miembro['sexo']);
+            $this->pdf->Cell(20,10,$miembro['fecNacimiento']);
+            $this->pdf->Cell(20,10,$miembro['telefonoFijo']);
+            $this->pdf->Cell(20,10,$miembro['telefonoMovil']);
+            $this->pdf->Cell(20,10,strtolower($miembro['email']));
+            $this->pdf->Ln(5);
+            $this->pdf->SetFont('Times','',8);
+            $this->pdf->Image('img//images.png',$this->pdf->GetX(),$this->pdf->GetY()+2,3.5,5);
+            $this->pdf->Cell(5);
+            $this->pdf->SetTextColor(073,103,141);
+            $this->pdf->Cell(15,10,\utf8_decode($miembro['direccion']));
+            $this->pdf->Ln(2.5);
+            $this->pdf->Cell(15,10,str_repeat("-", 200));
+            $this->pdf->Ln(5);
+        }
+        $this->pdf->Output('F',"informe-miembros-".$rand.'.pdf');
         return "informe-miembros-".$rand.'.pdf';
     }
+
+    // public function listarMiembros(Request $request)
+    // {
+ 
+    //     $orden = $request->ordenado == 1 ? 'nombre' : 'apellido1';
+    //     $miembros = \App\Miembros::join('profesiones','miembros.profesion','=','profesiones.id')->where(['idIglesia'=>$request->idIglesia,'miembros.status'=>$request->status])->select('miembros.id', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2','miembros.fecNacimiento','miembros.tipoDocumento', 'miembros.nroDocumento', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email',DB::raw('CASE WHEN miembros.sexo = "M" THEN "Masculino" WHEN miembros.sexo = "F" THEN "Femenino" ELSE "" END AS sexo'),'profesiones.nombre AS profesion')->orderBy($orden, 'ASC')->get();
+    //     $miembros->map(function($miembro){           
+    //         $nombreOrdenadoNombre =  trim($miembro->nombre).' '.trim($miembro->apellido1).' '.trim($miembro->apellido2);
+    //         $nombreOrdenadoApellido =   trim($miembro->apellido1) .' '.  trim($miembro->apellido2).', '.  trim($miembro->nombre);
+    //         $miembro->Nombre = str_pad(trim(substr($nombreOrdenadoNombre,0,30)),  30, " ");
+    //         $miembro->Apellido = str_pad(trim(substr($nombreOrdenadoApellido,0,30)),  30, " ");
+    //     });
+
+    //     $data = array(
+    //                     'miembros' => $miembros,
+    //                     'orden' => $request->ordenado
+    //                 );     
+
+    //     $rand = rand(0,1000);
+    //     //$pdf = PDF::loadView('miembros.pdf-listado-miembros',$data)->save(base_path()."\public\pdf\\informe-miembros".$rand.".pdf");  
+    //     //return "pdf/informe-miembros".$rand.'.pdf';
+    //     $pdf = PDF::loadView('miembros.pdf-listado-miembros',$data);  
+    //     $pdf->setPaper('A4', 'portrait');
+    //     $rand = rand(0,1000);
+    //     $file_to_save = "informe-miembros-".$rand.'.pdf';
+    //     file_put_contents($file_to_save, $pdf->stream('miembros'));
+    //     return "informe-miembros-".$rand.'.pdf';
+    // }
 
 
     public function listarInformeMinisterios(Request $request)
