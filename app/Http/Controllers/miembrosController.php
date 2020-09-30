@@ -37,7 +37,7 @@ class miembrosController extends Controller
         $paises = \App\Paises::get();
         $profesiones = \App\Profesiones::get();
         $status = \App\Status::get();
-        $iglesias = \App\Iglesias::get();
+        $iglesias = \App\Iglesias::where('status', 1)->get();
 
         $data = array(
             'comunidades' => $comunidades,
