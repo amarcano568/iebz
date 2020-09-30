@@ -5,18 +5,21 @@ $(document).on("ready", function () {
     var tituloimg = "";
     var descripcionImg = "";
     var objetoDataTables_Miembros = "";
-
+    var filtroInicial = 1;
+    $("#filtroNew").val(1).trigger("chosen:updated");
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
 
     listarMiembros();
 
     function listarMiembros() {
+        filtroNew = $("#filtroNew").val();
+        //alert(filtroNew);
         destroy_existing_data_table("#tableMiembros");
         $.fn.dataTable.ext.pager.numbers_length = 4;
         objetoDataTables_Miembros = $("#tableMiembros").DataTable({
-            processing: true,
-            serverSide: true,
-            responsive: true,
+            // processing: true,
+            // serverSide: true,
+            // responsive: true,
             order: [[1, "asc"]],
             responsive: true,
             dom: "Blfrtip",
@@ -70,19 +73,14 @@ $(document).on("ready", function () {
             ajax: {
                 method: "get",
                 url: "listar-miembros",
-                data: {},
+                data: {
+                    filtro: filtroNew,
+                },
             },
             initComplete: function (settings, json) {
                 $.unblockUI();
                 firdColumn = false;
-                idSelect = "idAreaColumn";
-                console.log(this);
-                designCol = this;
-                designColumn(designCol);
-                //objetoDataTables_Miembros.search(dataFilter).draw();
-                $(".chosen-select").chosen(configChosen());
 
-                $("#idAreaColumn").trigger("chosen:updated");
                 $('[data-toggle="popover"]').popover();
             },
             columns: [
@@ -99,19 +97,6 @@ $(document).on("ready", function () {
                 {
                     data: "nombreCorto",
                 },
-                // {
-                //     data: "status",
-                //     render: function(data) {
-                //         if (data == 1) {
-                //             estadoLabel =
-                //                 '<span class="badge badge-success">Activo</span>';
-                //         } else if (data == 0) {
-                //             estadoLabel =
-                //                 '<span class="badge badge-warning">Inactivo</span>';
-                //         }
-                //         return estadoLabel;
-                //     }
-                // },
                 {
                     data: "nombre",
                 },
@@ -140,7 +125,7 @@ $(document).on("ready", function () {
             columnDefs: [
                 {
                     className: "dt-head-center",
-                    targets: [3, 4, 5, 6, 7, 8],
+                    targets: [3, 4, 5, 6, 7, 8, 9],
                 },
                 {
                     width: "2.5%",
@@ -183,11 +168,12 @@ $(document).on("ready", function () {
                 },
                 {
                     width: "7.5%",
-                    targets: 9,
+                    targets: [9],
+                    visible: false,
                 },
             ],
         });
-        objetoDataTables_Miembros.columns(9).visible(false);
+        //  objetoDataTables_Miembros.columns(9).visible(false);
     }
 
     function generarExcel() {
@@ -220,14 +206,14 @@ $(document).on("ready", function () {
     function designColumn(table) {
         table
             .api()
-            .columns([2, 8])
+            .columns([8])
             .every(function () {
                 var column = this;
-                if (column[0] == 2) {
-                    placeholder = "Iglesia...";
-                } else if (column[0] == 9) {
-                    placeholder = "Status...";
-                }
+                // if (column[0] == 2) {
+                //     placeholder = "Iglesia...";
+                // } else if (column[0] == 9) {
+                placeholder = "Status...";
+                // }
 
                 var select = $(
                     '<select style="" id="' +
@@ -264,9 +250,15 @@ $(document).on("ready", function () {
             });
     }
 
-    $(document).on("change", "#idAreaColumn", function (event) {
-        objetoDataTables_Miembros.search("").draw();
+    $(document).on("change", "#filtroNew", function (event) {
+        listarMiembros();
+        // objetoDataTables_Miembros.columns(9).visible(false);
     });
+
+    // $(document).on("change", "#idAreaColumn", function (event) {
+    //     objetoDataTables_Miembros.columns(9).visible(false);
+    //     objetoDataTables_Miembros.search("").draw();
+    // });
 
     function configChosen() {
         return {
@@ -324,8 +316,10 @@ $(document).on("ready", function () {
     objetoDataTables_Miembros.on("draw", function () {
         console.log(detailRows);
         $.each(detailRows, function (i, id) {
+            //alert("open");
             $("#" + id + " td.celda_de_descripcion").trigger("click");
         });
+        objetoDataTables_Miembros.columns(9).visible(false);
     });
 
     function formatearSalidaDeDatosComplementarios(filaDelDataSet, columna) {
@@ -866,7 +860,7 @@ $(document).on("ready", function () {
         }
         $("#ModalDetalleImagen").modal("show");
         imagen =
-            '<img style="height: 23em;display: block;width: 100%" src="' +
+            '<img height="300" width="200" src="' +
             fileImage +
             '" alt="image" />';
         $("#divDetalleImagen").html(imagen);

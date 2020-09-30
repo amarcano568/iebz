@@ -5,7 +5,25 @@
 </div>
 
 <div id="divTableUsuarios" class="x_content">
-    <button type="button" id="btnAgregarMiembro" class="btn btn-round btn-success" style="float: right;">Agregar nuevo Miembro</button>
+    <div class="row">
+        <div class="col-sm-4">
+            <label for="" class="float-right">Filtro</label>
+        </div>
+        <div class="col-sm-4">
+                <select class="chosen-select" id="filtroNew" name="filtroNew" data-placeholder="Seleccione un status...">
+                    <option value="0,1,2,3,4">Todos los miembros</option>
+                    @foreach( $status as $statu )
+                    <option value="{{$statu->id}}">
+                        {{$statu->nombre}}
+                    </option>
+                    @endforeach
+                </select>
+        </div>
+        <div class="col-sm-4">
+            <button type="button" id="btnAgregarMiembro" class="btn btn-round btn-success" style="float: right;">Agregar nuevo Miembro</button>
+        </div>
+    </div>
+    
 <table id="tableMiembros" class="table table-striped table-bordered" style="width:100%">
 <thead>
     <tr>
