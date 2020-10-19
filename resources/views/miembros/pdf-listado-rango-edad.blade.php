@@ -65,7 +65,16 @@
                     </td>
                     <td class="alto">&nbsp;&nbsp;&nbsp;&nbsp; </td>
                     <td class="alto" style="float: right;">
-                        {{ $miembro->edad }}
+                        {{ $miembro->edad }}&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="alto" style="float: right;">
+                        {{ $miembro->telefonoFijo }}
+                    </td>
+                    <td class="alto" style="float: right;">
+                        {{ $miembro->TelefonoMovil }}
+                    </td>
+                    <td class="alto" style="float: right;">
+                        {{ $miembro->email }}
                     </td>
                 </tr>
                 @endforeach
