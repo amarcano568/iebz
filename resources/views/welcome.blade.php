@@ -134,6 +134,12 @@
                                                     </a>
                                                 </li>
                                                 @endcan
+                                                @can('report-miembros-por-nacionalidad')
+                                                <li>
+                                                    <a href="{{URL::to('report-nacionalidad')}}">Nacionalidades
+                                                    </a>
+                                                </li>
+                                                @endcan
                                             </ul>
 
                                         </li>

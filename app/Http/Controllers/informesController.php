@@ -79,6 +79,49 @@ class informesController extends Controller
         return view('miembros.edades', $data);
     }
 
+    public function reportNacionalidad()
+    {
+
+        $status = \App\Status::get();
+        $iglesias = \App\Iglesias::get();
+
+        $data = array(
+
+            'status'      => $status,
+            'iglesias'    => $iglesias
+        );
+
+        return view('miembros.nacionalidades', $data);
+    }
+
+    public function listarNacionalidades(Request $request)
+    {
+        $miembros = \App\Miembros::
+            join('paises','paises.id','miembros.paisNacimiento')->
+            select('paises.nombre as nombrePais','miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento')->
+            orderBy('nombrePais', 'DESC')
+            ->get();
+        $total = count($miembros);
+
+        $data = array(
+            'miembros'  => $miembros,
+            'total'     => $total,
+            'status'    => $request->nombreStatus
+        );
+
+        $rand = rand(0, 1000);
+        //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
+        //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
+        //return "\pdf\\reporte-rango-edad".$rand.".pdf";
+        $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
+        $pdf->setPaper('A4', 'portrait');
+        $rand = rand(0, 1000);
+        $file_to_save = "informe-por-nacionalidad-" . $rand . '.pdf';
+        file_put_contents($file_to_save, $pdf->stream('nacionalidad'));
+        return "informe-por-nacionalidad-" . $rand . '.pdf';
+    }
+
+
     public function listarRangoEdad(Request $request)
     {
         $edad = explode(';', $request->rangeEdad);

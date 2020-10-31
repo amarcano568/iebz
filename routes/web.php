@@ -78,7 +78,9 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('report-cumpleanos', 'informesController@reportCumpleanos')->name('report-cumpleanos')->middleware('permission:report-cumpleanos');
 	Route::get('listar-cumpleanos', 'informesController@listarCumpleanos');
 	Route::get('report-rango-edades', 'informesController@reportRangoEdades')->name('report-rango-edades')->middleware('permission:report-rango-edades');
+	Route::get('report-nacionalidad', 'informesController@reportNacionalidad')->name('report-nacionalidad')->middleware('permission:report-nacionalidad');
 	Route::get('listar-rango-edad', 'informesController@listarRangoEdad');
+	Route::get('listar-nacionalidades', 'informesController@listarNacionalidades');
 	Route::get('informe-miembros', 'informesController@informeMiembros')->name('informe-miembros')->middleware('permission:informe-miembros');
 	Route::get('listado-miembros', 'informesController@listarMiembros');
 	Route::get('informe-ministerios', 'ministeriosController@informeMinisterios')->name('informe-ministerios')->middleware('permission:informe-ministerios');
