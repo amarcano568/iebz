@@ -49,7 +49,7 @@ $(document).on("ready", function () {
             })
             .fail(function (statusCode, errorThrown) {
                 $.unblockUI();
-                console.log(errorThrown);
+                console.log(statusCode);
                 ajaxError(statusCode, errorThrown);
             });
     }
