@@ -111,7 +111,7 @@ class informesController extends Controller
             'status'    => $request->nombreStatus
         );
 
-        return view('miembros.pdf-listado-por-nacionalidad', $data);
+       // return view('miembros.pdf-listado-por-nacionalidad', $data);
 
         $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
@@ -119,6 +119,7 @@ class informesController extends Controller
         $file_to_save = "informeNacionalidad.pdf";
         
         file_put_contents($file_to_save, $pdf->stream('edad'));
+        
        // return 'fin';
        ini_set('max_execution_time', 60);
         return $file_to_save;
