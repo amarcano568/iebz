@@ -112,9 +112,10 @@ class informesController extends Controller
         $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
-        $file_to_save = "informe-por-nacionalidad-" . $rand . '.pdf';
+        $file_to_save = "informeNacionalidad-" . $rand . '.pdf';
+        
         file_put_contents($file_to_save, $pdf->stream('nacionalidad'));
-        return 'voy linea 118';
+        return 'fin';
         // return "informe-por-nacionalidad-" . $rand . '.pdf';
     }
 
