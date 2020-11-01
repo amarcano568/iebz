@@ -130,6 +130,7 @@ class informesController extends Controller
         $edad = explode(';', $request->rangeEdad);
 
         $miembros = \App\Miembros::where(['idIglesia' => $request->idIglesia, 'miembros.status' => $request->status])
+            ->join('paises','miembros.paisNacimiento','paises.id')
             ->select('miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento', DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))->get();
         $total = count($miembros);
 
@@ -140,10 +141,7 @@ class informesController extends Controller
         );
 
         $rand = rand(0, 1000);
-        //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-        //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
-        //return "\pdf\\reporte-rango-edad".$rand.".pdf";
-        $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
+         $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
         $file_to_save = "informe-nacionalidad-" . $rand . '.pdf';
