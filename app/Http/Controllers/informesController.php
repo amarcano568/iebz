@@ -99,7 +99,7 @@ class informesController extends Controller
         $miembros = \App\Miembros::
             join('paises','paises.id','miembros.paisNacimiento')->
             select('paises.nombre as nombrePais','miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento')->
-            orderBy('nombrePais', 'DESC')
+            orderBy('nombrePais', 'ASC')
             ->get();
         $total = count($miembros);
 
@@ -108,17 +108,14 @@ class informesController extends Controller
             'total'     => $total,
             'status'    => $request->nombreStatus
         );
-
-        $rand = rand(0, 1000);
-        //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
-        //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
-        //return "\pdf\\reporte-rango-edad".$rand.".pdf";
-        $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
-        $pdf->setPaper('A4', 'portrait');
-        $rand = rand(0, 1000);
-        $file_to_save = "informe-por-nacionalidad-" . $rand . '.pdf';
-        file_put_contents($file_to_save, $pdf->stream('nacionalidad'));
-        return "informe-por-nacionalidad-" . $rand . '.pdf';
+return 'hola';
+        // $rand = rand(0, 1000);
+        // $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
+        // $pdf->setPaper('A4', 'portrait');
+        // $rand = rand(0, 1000);
+        // $file_to_save = "informe-por-nacionalidad-" . $rand . '.pdf';
+        // file_put_contents($file_to_save, $pdf->stream('nacionalidad'));
+        // return "informe-por-nacionalidad-" . $rand . '.pdf';
     }
 
 
