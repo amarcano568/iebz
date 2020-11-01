@@ -114,7 +114,7 @@ class informesController extends Controller
         $rand = rand(0, 1000);
         $file_to_save = "informeNacionalidad.pdf";
         
-        file_put_contents($file_to_save, $pdf->stream('pdf'));
+        file_put_contents($file_to_save, $pdf->stream('edad'));
         return 'fin';
         // return "informe-por-nacionalidad-" . $rand . '.pdf';
     }
