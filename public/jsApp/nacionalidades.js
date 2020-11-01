@@ -53,4 +53,6 @@ $(document).on("ready", function () {
                 ajaxError(statusCode, errorThrown);
             });
     }
+
+    /* Prueba */
 });

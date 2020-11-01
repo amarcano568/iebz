@@ -88,6 +88,8 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('delete-file-pdf', function (Request $request) {
 		unlink($request->fileDelete);
 	});
+
+	/****** Prueb */
 	
 	/**
 	 * 					Ministerios
