@@ -131,7 +131,9 @@ class informesController extends Controller
 
         $miembros = \App\Miembros::where(['idIglesia' => $request->idIglesia, 'miembros.status' => $request->status])
             ->join('paises','miembros.paisNacimiento','paises.id')
-            ->select('paises.nombre as paisNombre','miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento', DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))->get();
+            ->select('paises.nombre as paisNombre','miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento', DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))
+            ->orderBy('paisNombre', 'Asc')
+            ->get();
         $total = count($miembros);
 
         $data = array(
