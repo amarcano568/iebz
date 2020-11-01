@@ -140,7 +140,7 @@ class informesController extends Controller
             'miembros'  => $miembros,
             'total'     => $total,
         );
-        $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
+        $pdf = PDF::loadView('miembros.pdf-nacionalidadd', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
         $file_to_save = "informeNacionalidad.pdf";
