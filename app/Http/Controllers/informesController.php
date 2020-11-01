@@ -128,16 +128,13 @@ class informesController extends Controller
     public function reporteNacionalidades(Request $request)
     {
         $edad = explode(';', $request->rangeEdad);
-        $edadDesde = $edad[0];
-        $edadHasta = $edad[1];
-        $miembros = \App\Miembros::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE())'), array($edadDesde, $edadHasta))->where(['idIglesia' => $request->idIglesia, 'miembros.status' => $request->status])
+
+        $miembros = \App\Miembros::where(['idIglesia' => $request->idIglesia, 'miembros.status' => $request->status])
             ->select('miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento', DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))->get();
         $total = count($miembros);
 
         $data = array(
             'miembros'  => $miembros,
-            'edadDesde' => $edadDesde,
-            'edadHasta' => $edadHasta,
             'total'     => $total,
             'status'    => $request->nombreStatus
         );
@@ -146,7 +143,7 @@ class informesController extends Controller
         //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
         //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
         //return "\pdf\\reporte-rango-edad".$rand.".pdf";
-        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad', $data);
+        $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
         $file_to_save = "informe-rango-edad-" . $rand . '.pdf';
