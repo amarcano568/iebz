@@ -111,6 +111,8 @@ class informesController extends Controller
             'status'    => $request->nombreStatus
         );
 
+        return view('miembros.pdf-listado-por-nacionalidad', $data);
+
         $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
