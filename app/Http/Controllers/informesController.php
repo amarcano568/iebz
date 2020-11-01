@@ -114,8 +114,8 @@ class informesController extends Controller
        // return view('miembros.pdf-listado-por-nacionalidad', $data);
 
         $pdf = PDF::loadView('miembros.pdf-listado-por-nacionalidad', $data);
-        $pdf->setPaper('A4', 'portrait');
-        $rand = rand(0, 1000);
+        // $pdf->setPaper('A4', 'portrait');
+        // $rand = rand(0, 1000);
         $file_to_save = "informeNacionalidad.pdf";
         
         file_put_contents($file_to_save, $pdf->output());
