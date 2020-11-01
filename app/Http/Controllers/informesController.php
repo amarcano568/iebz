@@ -146,9 +146,9 @@ class informesController extends Controller
         $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
-        $file_to_save = "informe-rango-edad-" . $rand . '.pdf';
+        $file_to_save = "informe-nacionalidad-" . $rand . '.pdf';
         file_put_contents($file_to_save, $pdf->stream('edad'));
-        return "informe-rango-edad-" . $rand . '.pdf';
+        return "informe-nacionalidad-" . $rand . '.pdf';
     }
 
 
