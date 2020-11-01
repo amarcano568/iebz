@@ -119,10 +119,10 @@ class informesController extends Controller
         $file_to_save = "informeNacionalidad.pdf";
         
         file_put_contents($file_to_save, $pdf->stream('edad'));
-        
+
        // return 'fin';
        ini_set('max_execution_time', 60);
-        return $file_to_save;
+        return $file_to_save;  
     }
 
 
