@@ -46,7 +46,7 @@ $(document).on("ready", function () {
                     '<iframe id="ObjPdf" src="" width="100%" height="600" type="application/pdf"></iframe> '
                 );
                 $("#ObjPdf").attr("src", data);
-                deleteFile(data);
+                //deleteFile(data);
             })
             .fail(function (statusCode, errorThrown) {
                 $.unblockUI();
