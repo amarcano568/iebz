@@ -55,4 +55,7 @@ $(document).on("ready", function () {
     }
 
     /* Prueba */
+    $(document).on("change", "#idPrueba", function (event) {
+        listarNacionalidades();
+    });
 });
