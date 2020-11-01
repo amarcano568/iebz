@@ -96,6 +96,8 @@ class informesController extends Controller
 
     public function listarNacionalidades(Request $request)
     {
+        ini_set('max_execution_time', 180);
+
         $miembros = \App\Miembros::
             join('paises','paises.id','miembros.paisNacimiento')->
             select('paises.nombre as nombrePais','miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento')->
@@ -115,8 +117,9 @@ class informesController extends Controller
         $file_to_save = "informeNacionalidad.pdf";
         
         file_put_contents($file_to_save, $pdf->stream('edad'));
-        return 'fin';
-        // return "informe-por-nacionalidad-" . $rand . '.pdf';
+       // return 'fin';
+       ini_set('max_execution_time', 60);
+        return $file_to_save;
     }
 
 
