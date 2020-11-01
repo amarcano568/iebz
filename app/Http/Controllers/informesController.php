@@ -127,29 +127,31 @@ class informesController extends Controller
 
     public function reporteNacionalidades(Request $request)
     {
-        ini_set('max_execution_time', 180);
-
-        $miembros = \App\Miembros::
-            //join('paises','paises.id','miembros.paisNacimiento')->
-            select('miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento')
-            //->orderBy('nombrePais', 'ASC')
-            ->get();
+        $edad = explode(';', $request->rangeEdad);
+        $edadDesde = $edad[0];
+        $edadHasta = $edad[1];
+        $miembros = \App\Miembros::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE())'), array($edadDesde, $edadHasta))->where(['idIglesia' => $request->idIglesia, 'miembros.status' => $request->status])
+            ->select('miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento', DB::raw('TIMESTAMPDIFF(YEAR,miembros.fecNacimiento,CURDATE()) AS edad'))->get();
         $total = count($miembros);
 
         $data = array(
             'miembros'  => $miembros,
+            'edadDesde' => $edadDesde,
+            'edadHasta' => $edadHasta,
             'total'     => $total,
+            'status'    => $request->nombreStatus
         );
-        $pdf = PDF::loadView('miembros.pdf-nacionalidad', $data);
+
+        $rand = rand(0, 1000);
+        //echo base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf";
+        //$pdf = PDF::loadView('miembros.pdf-listado-rango-edad',$data)->save(base_path()."\public\pdf\\reporte-rango-edad".$rand.".pdf");  
+        //return "\pdf\\reporte-rango-edad".$rand.".pdf";
+        $pdf = PDF::loadView('miembros.pdf-listado-rango-edad', $data);
         $pdf->setPaper('A4', 'portrait');
         $rand = rand(0, 1000);
-        $file_to_save = "informeNacionalidad.pdf";
-        
-        file_put_contents($file_to_save, $pdf->output());
-
-       // return 'fin';
-       ini_set('max_execution_time', 60);
-        return $file_to_save;  
+        $file_to_save = "informe-rango-edad-" . $rand . '.pdf';
+        file_put_contents($file_to_save, $pdf->stream('edad'));
+        return "informe-rango-edad-" . $rand . '.pdf';
     }
 
 
