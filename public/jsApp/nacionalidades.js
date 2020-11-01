@@ -26,13 +26,12 @@ $(document).on("ready", function () {
         nombreStatus = $("#status option:selected").text();
 
         $.ajax({
-            url: "listar-nacionalidades",
+            url: "reporte-de-nacionalidades",
             type: "get",
             data: {
                 idIglesia: idIglesia,
                 status: status,
                 _token: "{{ csrf_token() }}",
-                //nombreStatus: nombreStatus,
             },
             beforeSend: function () {
                 loadingUI("Generando informe de Nacionalidades");

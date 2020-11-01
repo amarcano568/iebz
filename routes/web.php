@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('actualizar-status-pais', 'mantenimientoController@actualizarStatusPais');
 	Route::get('editar-pais', 'mantenimientoController@editarPais');
 	Route::post('registrar-pais', 'mantenimientoController@registrarPais');
-
+	
 
 	/**
 	 * Informes
@@ -88,6 +88,8 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::get('delete-file-pdf', function (Request $request) {
 		unlink($request->fileDelete);
 	});
+
+	Route::get('reporte-de-nacionalidades', 'informesController@reporteNacionalidades');
 
 	/****** Prueb */
 	
