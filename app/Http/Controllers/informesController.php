@@ -132,7 +132,7 @@ class informesController extends Controller
         $miembros = \App\Miembros::
             join('paises','paises.id','miembros.paisNacimiento')->
             select('miembros.id', 'miembros.telefonoFijo', 'miembros.telefonoMovil', 'miembros.email', 'miembros.idIglesia', 'miembros.nombre', 'miembros.apellido1', 'miembros.apellido2', 'miembros.fecNacimiento')->
-            orderBy('nombrePais', 'ASC')
+           // orderBy('nombrePais', 'ASC')
             ->get();
         $total = count($miembros);
 
