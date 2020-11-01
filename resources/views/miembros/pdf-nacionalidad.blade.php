@@ -70,7 +70,7 @@
                         {{ $miembro->TelefonoMovil }}
                     </td>
                     <td class="alto" style="float: right;">
-                        {{ $miembro->nombrePais }}
+                       
                     </td>
                 </tr>
                 @endforeach
