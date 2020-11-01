@@ -31,7 +31,8 @@ $(document).on("ready", function () {
             data: {
                 idIglesia: idIglesia,
                 status: status,
-                nombreStatus: nombreStatus,
+                _token: "{{ csrf_token() }}",
+                //nombreStatus: nombreStatus,
             },
             beforeSend: function () {
                 loadingUI("Generando informe de Nacionalidades");
