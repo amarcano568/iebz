@@ -17,8 +17,6 @@ class Miembros extends Model
         }else{
             $miembro  = \App\Miembros::find($request->idMiembro);    
         }
-
-
 		$miembro->idIglesia = $request->idIglesia;
 		$miembro->nombre = $request->nombre;
 		$miembro->apellido1 = $request->apellido1;
@@ -35,6 +33,8 @@ class Miembros extends Model
 		$miembro->telefonoFijo = $request->telFijo;
 		$miembro->telefonoMovil = $request->telMovil;		
 		$miembro->fecNacimiento = $request->fecNacimiento;
+		$miembro->fecha_alta = $request->fecAlta;
+		$miembro->fecha_baja = $request->fecBaja;
 		$miembro->lugarNacimiento = $request->lugNacimiento;
 		$miembro->paisNacimiento = $request->pais;
 		$miembro->profesion = $request->profesion;
@@ -44,6 +44,8 @@ class Miembros extends Model
 		$miembro->iglesiaProcedencia = $request->iglesiaProcedencia;
 		$miembro->otrosDatos = $request->otrosDatos;
 		$miembro->status = $request->status;
+		$miembro->datos_personales = $request->has("datos_personales") ? 1 : 0;
+		$miembro->imagenes_personales =$request->has("imagenes_personales") ? 1 : 0;
 
         return $miembro->save();
 

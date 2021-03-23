@@ -224,7 +224,7 @@
                 </select>
                 <a href="" id="BtnNuevo"><i class="float-right text-primary fas fa-plus-circle"></i></a>
               </div>
-            </div>
+            </div>            
             <div class="row">
               <div class="input-group  col-lg-5 col-md-5 col-sm-5 col-xs-12">
                 <div class="input-group-prepend">
@@ -259,8 +259,37 @@
                 <textarea class="form-control" row="3"  id="otrosDatos" name="otrosDatos"></textarea>
               </div>
             </div>
+            <div class="row">
+              <div class="input-group  col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i>&nbsp;Fecha de alta</span>
+                </div>
+                <input type="date" class="form-control" placeholder="F. Alta" aria-label="F. Alta" aria-describedby="basic-addon1" id="fecAlta" name="fecAlta">
+              </div>
+              <div class="input-group  col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i>&nbsp;Fecha de baja</span>
+                </div>
+                <input type="date" class="form-control" placeholder="F. Baja" aria-label="F. Baja" aria-describedby="basic-addon1" id="fecBaja" name="fecBaja">
+              </div>
+            </div>
             <div class="ln_solid"></div>
-            
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="">
+                  <label>
+                    <input id="datos_personales" name="datos_personales" type="checkbox" class="js-switch"  /> Autorización uso de datos personales.
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="">
+                  <label>
+                    <input id="imagenes_personales" name="imagenes_personales" type="checkbox" class="js-switch"  /> Autorización tratamiento de imagen personal.
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         

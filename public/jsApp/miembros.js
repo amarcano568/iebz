@@ -501,6 +501,12 @@ $(document).on("ready", function () {
         },
     });
 
+    function changeSwitcheryState(el, value) {
+        if ($(el).is(":checked") != value) {
+            $(el).trigger("click");
+        }
+    }
+
     $("body").on("click", "#body-miembros a", function (e) {
         e.preventDefault();
 
@@ -575,6 +581,8 @@ $(document).on("ready", function () {
                             .val(response.data.profesion)
                             .trigger("chosen:updated");
                         $("#fecBautismo").val(response.data.fecBautismo);
+                        $("#fecAlta").val(response.data.fecha_alta);
+                        $("#fecBaja").val(response.data.fecha_baja);
                         $("#iglesiaBautismo").val(
                             response.data.iglesiaBautismo
                         );
@@ -583,6 +591,18 @@ $(document).on("ready", function () {
                             response.data.iglesiaProcedencia
                         );
                         $("#otrosDatos").val(response.data.otrosDatos);
+                        if (response.data.datos_personales == 1) {
+                            changeSwitcheryState("#datos_personales", true);
+                        } else {
+                            changeSwitcheryState("#datos_personales", false);
+                        }
+
+                        if (response.data.imagenes_personales == 1) {
+                            changeSwitcheryState("#imagenes_personales", true);
+                        } else {
+                            changeSwitcheryState("#imagenes_personales", false);
+                        }
+
                         $("#status")
                             .val(response.data.status)
                             .trigger("chosen:updated");
