@@ -278,14 +278,14 @@
               <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="">
                   <label>
-                    <input id="datos_personales" name="datos_personales" type="checkbox" class="js-switch"  /> Autorización uso de datos personales.
+                    <input id="datos_personales" name="datos_personales" type="checkbox" class="form-control"  /> Autorización uso de datos personales.
                   </label>
                 </div>
               </div>
               <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="">
                   <label>
-                    <input id="imagenes_personales" name="imagenes_personales" type="checkbox" class="js-switch"  /> Autorización tratamiento de imagen personal.
+                    <input id="imagenes_personales" name="imagenes_personales" type="checkbox" class="form-control"  /> Autorización tratamiento de imagen personal.
                   </label>
                 </div>
               </div>

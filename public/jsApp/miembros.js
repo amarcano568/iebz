@@ -501,12 +501,6 @@ $(document).on("ready", function () {
         },
     });
 
-    function changeSwitcheryState(el, value) {
-        if ($(el).is(":checked") != value) {
-            $(el).trigger("click");
-        }
-    }
-
     $("body").on("click", "#body-miembros a", function (e) {
         e.preventDefault();
 
@@ -592,15 +586,15 @@ $(document).on("ready", function () {
                         );
                         $("#otrosDatos").val(response.data.otrosDatos);
                         if (response.data.datos_personales == 1) {
-                            changeSwitcheryState("#datos_personales", true);
+                            $("#datos_personales").prop("checked", true);
                         } else {
-                            changeSwitcheryState("#datos_personales", false);
+                            $("#datos_personales").prop("checked", false);
                         }
 
                         if (response.data.imagenes_personales == 1) {
-                            changeSwitcheryState("#imagenes_personales", true);
+                            $("#imagenes_personales").prop("checked", true);
                         } else {
-                            changeSwitcheryState("#imagenes_personales", false);
+                            $("#imagenes_personales").prop("checked", false);
                         }
 
                         $("#status")
