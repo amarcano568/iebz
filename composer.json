@@ -19,6 +19,7 @@
         "facade/ignition": "^1.14",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
+        "laravel/passport": "^10.1",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8.0",
         "maatwebsite/excel": "^3.1",

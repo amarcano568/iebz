@@ -10,7 +10,7 @@ class Pdf extends Fpdf
     public function Header()
     {
         $this->SetTextColor(0,0,0);
-        $this->Image('img//logo.png',10,6,30);
+        $this->Image('img/logo_horizontal.png',10,6,30);
         $this->SetFont('Arial','B',12);
         $this->Cell(80);
         $this->Cell(30,10,'INFORME DE MIEMBROS',0,0,'C');

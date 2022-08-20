@@ -46,7 +46,7 @@
     </head>
     <body>
         <header>
-            <img src="img/logo.png" alt="" height="75%">
+            <img src="img/logo_horizontal.png" alt="" height="75%">
             <br>
             <span class="text-center">Informe de Miembros por Nacionalidades</span>
             <hr>

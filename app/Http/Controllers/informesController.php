@@ -226,7 +226,7 @@ class informesController extends Controller
             $this->pdf->Cell(20, 10, strtolower($miembro['email']));
             $this->pdf->Ln(5);
             $this->pdf->SetFont('Times', '', 8);
-            $this->pdf->Image('img//images.png', $this->pdf->GetX(), $this->pdf->GetY() + 2, 3.5, 5);
+            $this->pdf->Image('img/images.png', $this->pdf->GetX(), $this->pdf->GetY() + 2, 3.5, 5);
             $this->pdf->Cell(5);
             $this->pdf->SetTextColor(073, 103, 141);
             $this->pdf->Cell(15, 10, \utf8_decode($miembro['direccion']));
