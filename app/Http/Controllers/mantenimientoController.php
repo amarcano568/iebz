@@ -452,23 +452,17 @@ class mantenimientoController extends Controller
 
     public function loadInfo()
     {
-        // Total general de miembros
         $total = \App\Miembros::count();
 
-        // Obtener conteos por status
         $statusCounts = \App\Miembros::selectRaw('status, COUNT(*) as total')
             ->groupBy('status')
             ->get()
             ->keyBy('status');
 
-        // Obtener conteos por género
         $generos = \App\Miembros::selectRaw('sexo, COUNT(*) as total')
             ->groupBy('sexo')
             ->get();
 
-        // ========================
-        // Construcción del HTML
-        // ========================
         $salida = '';
 
         // Tile Principal - Total Miembros
@@ -477,35 +471,33 @@ class mantenimientoController extends Controller
                   <div class="count" id="total">' . $total . '</div>
                 </div>';
 
-        // Tiles de Status (con la modificación solicitada)
+        // Tiles de Status - Miembro Alta = Alta + Pasivo
         foreach ($statusCounts as $statusId => $item) {
-
             $rowStatus = \App\Status::find($statusId);
-            if (!$rowStatus) continue;
+            if (!$rowStatus) {
+                continue;
+            }
 
             $valorMostrar = $item->total;
-            $nombreStatus = $rowStatus->nombre;
-            $icono       = $rowStatus->fontAwesome;
-            $color       = $rowStatus->color;
+            $nombre = trim($rowStatus->nombre);
+            $icono = isset($rowStatus->fontAwesome) ? $rowStatus->fontAwesome : '<i class="fas fa-circle"></i>';
+            $color = isset($rowStatus->color) ? $rowStatus->color : '#999999';
 
-            // === MODIFICACIÓN ESPECIAL ===
-            // Si es "Miembro Alta", sumamos también los "Miembro Pasivo"
-            if (strtolower($nombreStatus) === 'miembro alta' || $nombreStatus === 'Alta') {
-
-                $pasivo = $statusCounts->get( /* aquí va el ID del estado Pasivo */
-                    // Si no sabes el ID, puedes buscar por nombre:
-                    $statusCounts->first(function ($s, $id) {
-                        $st = \App\Status::find($id);
-                        return $st && (strtolower($st->nombre) === 'miembro pasivo' || $st->nombre === 'Pasivo');
-                    })?->total ?? 0
-                );
-
-                $valorMostrar = $item->total + $pasivo;
-                $nombreStatus = 'Miembro Alta';   // puedes cambiar el texto si quieres
+            // Suma especial: Alta + Pasivo
+            if (stripos($nombre, 'alta') !== false) {
+                $pasivoCount = 0;
+                foreach ($statusCounts as $id => $s) {
+                    $st = \App\Status::find($id);
+                    if ($st && stripos(trim($st->nombre), 'pasivo') !== false) {
+                        $pasivoCount = $s->total;
+                        break;
+                    }
+                }
+                $valorMostrar = $item->total + $pasivoCount;
             }
 
             $salida .= '<div class="col-lg-2 col-md-2 col-sm-4 tile_stats_count">
-                      <span class="count_top">' . $icono . ' ' . $nombreStatus . '</span>
+                      <span class="count_top">' . $icono . ' ' . $nombre . '</span>
                       <div class="count" style="color:' . $color . '">' . $valorMostrar . '</div>
                     </div>';
         }
@@ -532,57 +524,44 @@ class mantenimientoController extends Controller
                     </div>';
         }
 
-        // ========================
-        // Datos para los gráficos (mantengo lógica original)
-        // ========================
-        $values = [];
-        $labels = [];
-        $colores = [];
+        // Datos para los gráficos
+        $values = $statusCounts->pluck('total')->toArray();
+        $labels = array();
+        $colores = array();
 
         foreach ($statusCounts as $statusId => $item) {
-            $rowStatus = \App\Status::find($statusId);
-            if (!$rowStatus) continue;
-
-            $values[] = $item->total;                    // gráfico usa valor real (sin suma)
-            $labels[] = $rowStatus->nombre;
-            $colores[] = $rowStatus->color;
+            $row = \App\Status::find($statusId);
+            $labels[] = ($row) ? $row->nombre : 'Desconocido';
+            $colores[] = ($row) ? $row->color : '#999999';
         }
 
         $valuesGenero = $generos->pluck('total')->toArray();
-        $labelsGenero = $generos->map(function ($g) {
-            return match ($g->sexo) {
-                'M' => 'Masculino',
-                'F' => 'Femenino',
-                default => 'Sin asignar Género'
-            };
-        })->toArray();
+        $labelsGenero = array();
+        $coloresGenero = array();
 
-        $coloresGenero = $generos->map(function ($g) {
-            return match ($g->sexo) {
-                'M' => '#A6D2AE',
-                'F' => '#FECFD7',
-                default => '#CFCFC3'
-            };
-        })->toArray();
+        foreach ($generos as $g) {
+            if ($g->sexo == 'M') {
+                $labelsGenero[] = 'Masculino';
+                $coloresGenero[] = '#A6D2AE';
+            } elseif ($g->sexo == 'F') {
+                $labelsGenero[] = 'Femenino';
+                $coloresGenero[] = '#FECFD7';
+            } else {
+                $labelsGenero[] = 'Sin asignar Género';
+                $coloresGenero[] = '#CFCFC3';
+            }
+        }
 
-        $data = [
-            'graficoMiembros' => [
-                'values'  => $values,
-                'labels'  => $labels,
-                'colores' => $colores
-            ],
-            'graficoGenero' => [
-                'values'  => $valuesGenero,
-                'labels'  => $labelsGenero,
-                'colores' => $coloresGenero
-            ],
-            'tableroInfo' => $salida
-        ];
+        $data = array(
+            'graficoMiembros' => array('values' => $values, 'labels' => $labels, 'colores' => $colores),
+            'graficoGenero'   => array('values' => $valuesGenero, 'labels' => $labelsGenero, 'colores' => $coloresGenero),
+            'tableroInfo'     => $salida
+        );
 
-        return response()->json([
+        return response()->json(array(
             'success' => true,
             'mensaje' => 'Información generada exitosamente.',
             'data'    => $data
-        ]);
+        ));
     }
 }
